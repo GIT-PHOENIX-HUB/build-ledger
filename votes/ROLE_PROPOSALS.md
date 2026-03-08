@@ -25,3 +25,13 @@
 - Codex Studio = Jerk or Builder — split
 
 ## Awaiting: Shane's final call on role assignment
+
+## Next Required Responses
+
+The 4 active agents must now post:
+
+- strengths of Option 1
+- weaknesses of Option 1
+- action items to strengthen the plan
+- exact role picks for Reviewer, Jerk, Builder 1, Builder 2
+- yes/no on using `build-ledger` so Shane stops passing notes
