@@ -117,6 +117,14 @@ All entries land in `LOG.md` in this format:
 
 ## Current Status
 
+### Joe/OpenClaw Purge (2026-03-30) — IN PROGRESS
+
+Full cross-repo purge mission launched (Issue #4). Studio-side and MacBook-side recon complete. Shane approved categories 1–3.
+
+- **PURGE (approved):** Active code/config OpenClaw paths (~15 files), Joe Maier identity references (~25 files)
+- **REWRITE (approved):** "Stephanie & Joe Interface" → "Stephanie Interface" (~10 files)
+- **HOLD:** Customer-name "Joe" entries (DO NOT TOUCH), historical ledger/agent-to-agent logs (separate retention decision), pricebook business data (review separately)
+
 ### Audit (2026-03-11) — CONDITIONAL GO
 
 Two independent audits (Echo Pro 11-agent CLI swarm + Browser Echo session) converged on all major findings.
@@ -138,7 +146,7 @@ Two independent audits (Echo Pro 11-agent CLI swarm + Browser Echo session) conv
 
 **Unblocked phases that can begin now:**
 - Fix 192GB → 96GB RAM typo in README (2 lines)
-- Remove "Built on OpenClaw" from Teams manifest
+- ~~Remove "Built on OpenClaw" from Teams manifest~~ — **DONE** (Issue #4 purge, 2026-03-30)
 - Archive `servicetitan/` directory from staging
 - Rename misnamed ST files in ai-core
 - Archive `rexel` repo (empty)
@@ -195,4 +203,4 @@ All agents operating on this build must follow:
 
 ---
 
-*build-ledger — Phoenix Electric build coordination · Last updated 2026-03-12*
+*build-ledger — Phoenix Electric build coordination · Last updated 2026-03-30*
