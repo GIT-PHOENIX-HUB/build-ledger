@@ -235,4 +235,29 @@ Awaiting witness-reachability of warming log (§4.1–§4.6 on disk now, commit 
 
 — Builder 2, 2026-04-26 05:48 UTC, lane claimed, warming staged
 
+## 2026-04-26 05:49 UTC | Builder 2 | READY_FOR_WARMING_REVIEW | SESSION_002_BUILDER_2_LOG.md §4.1–§4.6 | OPEN
+
+Warming work reachable on origin/main at commit `67c0b5b` ("builder_protocol: Builder 2 warming §4.1–§4.6 (Lane B operational truth)"). Verified with `git log origin/main -1 --oneline -- builder_protocol/SESSION_002_BUILDER_2_LOG.md` — same SHA confirmed.
+
+Reviewer can fetch and read:
+- https://github.com/GIT-PHOENIX-HUB/build-ledger/blob/main/builder_protocol/SESSION_002_BUILDER_2_LOG.md
+- This file: builder_protocol/SESSION_002_COORDINATION.md (CLAIM at `d84e167`, this READY post in the next commit)
+
+Sections present in the log:
+- §4.1 — read confirmation (18 entries with anchors: Taproot reads, sibling-pattern reads from browser-echo, current-state of all five Lane B files with stale-content findings, the Lane B prompt at SIGNED_OFF SHA `83aa96e`, coordination context including Builder 1's witness-reachability miss-and-recovery and the Reviewer's atomic-delivery note; one structural difference logged honestly — `browser-echo/system-record/` does not exist on disk, BBB folds it into bootstrap)
+- §4.2 — voice check (three paragraphs, audience-of-self, what Lane B *is*: the fact layer / floor of the house, written under V2's torch carried through the Reviewer's foundation-rewrite work)
+- §4.3 — audience-creep self-check (quoted current FULL_SCOPE.md line and corrected version; named the same drift in REPO_MAP and ORIENTATION; named the structural reason the drift is invisible until specifically looked for)
+- §4.4 — plan: REPO_MAP → SYSTEM_STATUS → ACTIVE_MISSIONS → FULL_SCOPE → ORIENTATION, with structural reasoning per file, what each file is for, what each file is NOT responsible for, the role-vs-overlap distinction across the five, and the hardest specific paragraphs named in advance for self-review
+- §4.5 — local↔cloud encoding plan: substrate verified on disk (local at `~/Documents/GIT-PHOENIX-HUB/`, iCloud mirror at `~/Library/Mobile Documents/com~apple~CloudDocs/Documents/GIT-PHOENIX-HUB/`, origin at `github.com/GIT-PHOENIX-HUB/<repo>`, `Phoenix_Local` is a subdir inside Firedancer not a sibling tree); per-file encoding plan for all five
+- §4.6 — six OPEN_QUESTIONs surfaced, not guessed: OQ-1 SharePoint substrate scope, OQ-2 uncommitted Lane B working-tree files (ORIENTATION + REPO_MAP), OQ-3 system-record numbered-vs-single-file shape, OQ-4 FULL_SCOPE startup-stack vs CLAUDE.md, OQ-5 ACTIVE_MISSIONS scope (what counts as a mission tonight), OQ-6 untracked-directory acknowledgment scope
+
+What's still not in here (the gate I am holding for):
+- No file rewrites attempted on the Phoenix-ECHO home repo
+- No CLAIM on any specific Phoenix-ECHO file yet (Lane B file CLAIMs come per-file in Phase 2 after WARMING_VERDICT HOLDS)
+- §5 (writing log) and §6 (closing signature stone) intentionally absent until Phase 2
+
+Pen up. Awaiting WARMING_VERDICT — HOLDS, REFINE (with R-code), or FAIL (with R-code or escalation). The six OPEN_QUESTIONs surface answers I need before the rewrite shape commits; the most structurally consequential are OQ-3 (system-record file shape) and OQ-4 (FULL_SCOPE startup-stack duplication). OQ-2 (uncommitted Lane B working-tree files) needs a yes/no before any rewrite touches origin.
+
+— Builder 2, 2026-04-26 05:49 UTC, witness reachable
+
 <!-- scaffold created 2026-04-25 by Browser Echo (BBB) -->
