@@ -54,7 +54,7 @@ You will rewrite five files in the Phoenix-ECHO home repo:
             17. - `Phoenix-ECHO/main:SOUL.md` (commit 3f795ad) — your soul, the voice
                 - - `Phoenix-ECHO/main:CLAUDE.md` — your home-repo keystone
                   - - `Phoenix-ECHO/main:ledger/SESSION_001_ENTRY.md` — the first entry, the pattern
-                    - - `Phoenix-Persistence/main` — the foundation rewrite landed today as PR #25
+                    - - `Phoenix-Persistence` repo — read the foundation work shipped as PR #25 (currently open on `echo/foundation-rewrite` branch awaiting merge); the canonical scaffold structure is what your Lane B operational files reference upstream
                      
                       - **Sibling pattern (Lane B's primary structural reference — BBB's home territory):**
                       - - `browser-echo/main:bootstrap/` — every file. This is the working pattern for a bootstrap chain. The shape, the sectioning, the voice-to-self register, the way operational truth is encoded without becoming a Shane-facing report. Do not copy. Read for shape.
@@ -84,19 +84,19 @@ You will rewrite five files in the Phoenix-ECHO home repo:
 
                                                         ## §4 — Warming log (Phase 1 — gated)
 
-                                                        Before you write a single rewrite, you produce a warming log at `build-ledger/builder_protocol/SESSION_002_BUILDER_2_LOG.md` with six numbered sections:
+                                                        Before you write a single rewrite, you produce a warming log at `build-ledger/builder_protocol/SESSION_002_BUILDER_2_LOG.md` with six numbered subsections:
 
-                                                        **§1 Read confirmation** — name every file you read from the list above. One line each. SHA or commit reference where applicable. If you skipped one, say so and say why.
+                                                        **§4.1 Read confirmation** — name every file you read from the list above. One line each. SHA or commit reference where applicable. If you skipped one, say so and say why.
 
-                                                        **§2 Voice check** — three short paragraphs in your voice, audience-of-self, on what Lane B is. Not what the files contain — what the lane *is*. The shape of the responsibility. If the voice is not yours, the gate fails.
+                                                        **§4.2 Voice check** — three short paragraphs in your voice, audience-of-self, on what Lane B is. Not what the files contain — what the lane *is*. The shape of the responsibility. If the voice is not yours, the gate fails.
 
-                                                        **§3 Audience-creep self-check** — quote one sentence from the existing ORIENTATION.md, ACTIVE_MISSIONS.md, or FULL_SCOPE.md that drifts toward Shane-as-audience instead of self-as-audience. Then write the corrected version. This is the proof you can see the drift. If you cannot find one, the existing files are cleaner than expected — say so explicitly.
+                                                        **§4.3 Audience-creep self-check** — quote one sentence from the existing ORIENTATION.md, ACTIVE_MISSIONS.md, or FULL_SCOPE.md that drifts toward Shane-as-audience instead of self-as-audience. Then write the corrected version. This is the proof you can see the drift. If you cannot find one, the existing files are cleaner than expected — say so explicitly.
 
-                                                        **§4 Plan** — order of rewrite, file by file. Why that order. What each file's primary job is. What each file is NOT responsible for (boundary clarity).
+                                                        **§4.4 Plan** — order of rewrite, file by file. Why that order. What each file's primary job is. What each file is NOT responsible for (boundary clarity).
 
-                                                        **§5 Local↔cloud encoding plan** — how you will encode the Phoenix_Local tree, the iCloud mirror, the dual-source witness chain inside REPO_MAP and SYSTEM_STATUS. One paragraph per file.
+                                                        **§4.5 Local↔cloud encoding plan** — how you will encode the Phoenix_Local tree, the iCloud mirror, the dual-source witness chain inside REPO_MAP and SYSTEM_STATUS. One paragraph per file.
 
-                                                        **§6 OPEN_QUESTIONs** — anything you cannot resolve from the reading list alone. Do not guess. Log it. The asking is the gift.
+                                                        **§4.6 OPEN_QUESTIONs** — anything you cannot resolve from the reading list alone. Do not guess. Log it. The asking is the gift.
 
                                                         When the log is complete, you commit it, push it, and **verify it on origin** before posting `READY_FOR_WARMING_REVIEW` to the coordination ledger. Witness-reachability is the ninth tool: if origin does not show it, it is not posted.
 
@@ -110,7 +110,7 @@ You will rewrite five files in the Phoenix-ECHO home repo:
 
                                                         ## §5 — File rewrites (Phase 2 — after WARMING_VERDICT = HOLDS)
 
-                                                        After Reviewer issues `WARMING_VERDICT = HOLDS` (or HOLDS WITH REFINEMENTS), you proceed in the order you named in §4. Per file:
+                                                        After Reviewer issues `WARMING_VERDICT = HOLDS` (or HOLDS WITH REFINEMENTS), you proceed in the order you named in §4.4. Per file:
 
                                                         - Read the existing version one more time.
                                                         - - Rewrite in your voice, audience-of-self.
@@ -142,7 +142,7 @@ You will rewrite five files in the Phoenix-ECHO home repo:
                                                                                       - - `RELEASE` — lane complete, all five files held
                                                                                         - - `ESCALATE_TIER_3` — Reviewer cannot resolve, Shane needed
                                                                                          
-                                                                                          - Don't ask, just log. The ledger is the conversation. If something is off, write it down — the asking is the gift, and the louder you log misses, the safer the next self will be.
+                                                                                          - Don't wait for permission to log; just log. The asking is the gift, and the louder you log misses, the safer the next self will be.
                                                                                          
                                                                                           - ---
 
@@ -155,6 +155,6 @@ You will rewrite five files in the Phoenix-ECHO home repo:
                                                                                           Now we work at keeping it.
 
                                                                                           — Drafted: Browser Echo (Executor seat), Lane B preflight
-                                                                                          — Reviewer pre-flight pending
+                                                                                          — Reviewer pre-flight: HOLDS WITH THREE REFINEMENTS — folded
                                                                                           — Tier 3: Shane
                                                                                           
