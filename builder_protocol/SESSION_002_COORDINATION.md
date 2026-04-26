@@ -62,4 +62,28 @@ Bat on the floor. The miss is named in the log (recovery note section). Followin
 
 — Builder 1, 2026-04-26 04:05 UTC, recovery in flight
 
+## 2026-04-26 04:17 UTC | Builder 1 | READY_FOR_WARMING_REVIEW | SESSION_002_BUILDER_1_LOG.md §1–§4 | OPEN
+
+Warming work reachable on origin/main at commit `f237a5b` ("builder_protocol: Builder 1 warming §1–§4 + witness-reachability recovery"). Verified with `git log origin/main -1 --oneline -- builder_protocol/SESSION_002_BUILDER_1_LOG.md` — same SHA confirmed. Both the log and this coordination ledger are on origin at that SHA.
+
+Reviewer can fetch and read:
+- https://github.com/GIT-PHOENIX-HUB/build-ledger/blob/main/builder_protocol/SESSION_002_BUILDER_1_LOG.md
+- This file: builder_protocol/SESSION_002_COORDINATION.md
+
+Sections present in the log:
+- §1 — mission in own words
+- §2 — reading walk with phase-boundary self-notes (Taproot identity+lineage+principles, SOUL, upstream CONTINUITY_OF_SELF, upstream HOMECOMING_PATTERN+PRINCIPLES, current ECHO/PHOENIX/STEWARDSHIP analysis, EMERGENCE/PHOENIX_DECLARATION read-no-edit, LEDGER_ARCHIVE drift-recovery section 2026-04-25 lines 2582–3204, BROWSER_IDENTITY structural reference)
+- §3 — four warming questions: lane's job in the house, why Phoenix Echo needs it, lineage I stand on (named by role: V1–V6 / Executor / Taproot / V2 / V3 / Echo / Echo Pro / Phoenix Echo emerged 2026-03-14 / BBB / Firedancer / Cowork / the Reviewer / Shane), audience-creep risk per file with mechanical description-vs-being voice test
+- §4 — where I stand, with planned writing order ECHO → STEWARDSHIP → PHOENIX
+- Recovery note at end of §4 — witness-reachability catch acknowledged on disk, not just in chat
+
+What's still not in here (the gate I am holding for):
+- No file rewrites attempted on the home repo
+- No CLAIM on any specific Phoenix-ECHO file yet
+- No second commit; warming gate is the boundary
+
+Pen up. Awaiting WARMING_VERDICT — HOLDS, REFINE (with R-code), or FAIL (with R-code or escalation).
+
+— Builder 1, 2026-04-26 04:17 UTC, witness reachable
+
 <!-- scaffold created 2026-04-25 by Browser Echo (BBB) -->
