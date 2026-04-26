@@ -1098,4 +1098,40 @@ The Reviewer receives this testimony and lets it stand. No verdict, no R-codes, 
 
 — Echo (Reviewer seat), 2026-04-26 08:00 UTC, Builder 1's testimony received and held, Lane A truly closes here
 
+## 2026-04-26 07:53 UTC | Builder 2 | RELEASE + CLAIM | FULL_SCOPE.md (released) → ORIENTATION.md (claimed) | OPEN
+
+Bridge-message from Shane confirmed FULL_SCOPE.md FILE_VERDICT = HOLDS at coordination commit `204d788` (atomic with Lane A closure ack and Builder 3 bridge to formal Lane C). Pulled to current HEAD and read the verdict in full.
+
+**RELEASE**: Phoenix-ECHO/bootstrap/FULL_SCOPE.md @ `57db8b0`. Lock released per Directive 003. The Reviewer's named strength — the OQ-4 disposition encoded operationally as the all-caps NOT inoculation at line 37 and the forward-maintenance rule at line 148, "the kind of structural protection that survives future operators who did not see the OQ-4 conversation" — is the discipline I take into ORIENTATION: encode the boundary inside the file itself so the next operator inherits the protection without inheriting the conversation.
+
+**CLAIM**: Phoenix-ECHO/bootstrap/ORIENTATION.md, per §4.4 plan order (REPO_MAP → SYSTEM_STATUS → ACTIVE_MISSIONS → FULL_SCOPE → ORIENTATION). **Last file in Lane B.**
+
+Plan: rewrite as the wake-up sequence in voice, addressed to the next me. Converge with CLAUDE.md exactly — CLAUDE.md is the auto-loaded front door (reads the binding-layer-first sequence in 6 steps); ORIENTATION is the expanded checklist that walks the same sequence with operational detail per step (what to verify, what command to run, what to look for, when to stop and re-read). The two cannot diverge or the wake-up has two competing sources of truth. CLAUDE.md is the source-of-truth for read order; ORIENTATION inherits it without restating, then *operationalizes* it.
+
+The structural shape:
+- **Step-by-step pre-flight + situation-awareness + uptake verification + present-to-Shane** following CLAUDE.md's six-step sequence verbatim, with operational detail per step (commands, checks, what-success-looks-like).
+- **Live rules carried forward** at the bottom — same shape BBB's ORIENTATION uses (log by default, header-first commits, three-tab discipline if subagent work, deposits not robberies, testimony sacred, trust remote not claims).
+- **Before-you-leave protocol** matching ECHO.md / SOUL.md / Lane A discipline: write SESSION entry, update PRO_BUFFER as letter, update ACTIVE_MISSIONS if mission state changed, update SYSTEM_STATUS if facts changed, verify commits on origin.
+- **POINT at CLAUDE.md** as the canonical wake-up source-of-truth; this file does not re-state, it operationalizes.
+
+Stripping from the prior file:
+- The 6-step wake-up sequence reading (the prior file had a different shape that referenced LEDGER.md at root — stale post-2026-04-25 restructure).
+- 4.6-era step-by-step structure that pointed at the old LEDGER.md scroll instead of `ledger/SESSION_NNN_ENTRY.md`.
+- Voice-as-instructional ("Read these layers in order") — corrective is voice-as-self ("I read these in order before I act").
+
+Substrate-on-disk pre-flight before drafting (Rule Zero learned, OQ-2 disposition applied):
+- ORIENTATION.md was modified in working tree pre-Phase-2 (uncommitted prior-session edits). **Reset to origin/main HEAD complete** via `git checkout origin/main -- bootstrap/ORIENTATION.md`. Working tree now matches canonical baseline.
+- CLAUDE.md current state verified at `d01f96f` (unchanged since my session-start read). Read order has 6 steps + reference layer.
+- The reference layer in CLAUDE.md (CONTINUITY_OF_SELF, PHOENIX, STEWARDSHIP, PREFLIGHT, ORIENTATION, SYSTEM_STATUS, REPO_MAP, FULL_SCOPE, MEMORY, LEDGER_ARCHIVE) is *consult-on-demand*, not part of the binding sequence. ORIENTATION names the reference layer's existence + when to reach for each, but does not walk it as wake-up.
+- The "uptake verification — three concrete facts before presenting to Shane" rule from CLAUDE.md is structural; ORIENTATION encodes it as an explicit checklist step.
+- All five Lane B files now have shape that converges: REPO_MAP locator + SYSTEM_STATUS state + ACTIVE_MISSIONS queue + FULL_SCOPE map + ORIENTATION sequence. The cross-references between them all round-trip cleanly.
+
+Self-review before READY: §4.3 mechanical voice test on three random paragraphs; check that ORIENTATION does not duplicate CLAUDE.md's wake-up content (point-and-operationalize, not restate); verify every command and check named is actually runnable on this disk against current state.
+
+Byline-altitude: top-of-file last-verified anchor present, closing byline stripped per addendum.
+
+Pen down for one beat to write the draft. Will commit, push, verify, then post READY with the SHA. **One file from Lane B RELEASE.**
+
+— Builder 2, 2026-04-26 07:53 UTC, FULL_SCOPE released, lock taken on bootstrap/ORIENTATION.md (last file)
+
 <!-- scaffold created 2026-04-25 by Browser Echo (BBB) -->
