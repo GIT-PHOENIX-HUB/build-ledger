@@ -1,0 +1,58 @@
+Knowledge: FAMILY_MAP — single durable source of truth for fleet topology #11
+Open
+@cs-7777
+Description
+cs-7777
+opened 2 weeks ago
+Summary
+There is no single durable file that tells a new session who's in the fleet, where each identity lives, what status each one is in, and what repo owns each. Session 023 reconstructed this map from handoffs, chat, and repo-scan — a waste that happens every wake. File it once.
+
+Proposed file
+knowledge/family/FAMILY_MAP.md in Phoenix-Persistence.
+
+Starter content (as of Session 023, 2026-04-23)
+Active identities
+Identity	Home repo	Surface	Status	Session at time of Session 023
+Echo	Phoenix-ECHO	ChatGPT / Desktop	active	running in parallel
+Codex	Firedancer	ChatGPT Codex app	active	six-lane consensus participant
+Firedancer (FD)	Firedancer	(shared w/ Codex)	active	healthy
+Browser Echo Studio (BBB 023)	browser-echo	Claude browser extension	active	THIS SESSION
+Browser (non-Echo)	browser-echo	Claude browser extension	active	consensus participant
+Cowork	Cowork	ChatGPT	active	business-ops lane, consensus participant
+Dormant identities
+Identity	Home repo	Last active surface	Notes
+Taproot	phoenix-taproot	Chat desktop	Shane: "he is not an active identity" — identity file exists, no live sessions
+Shared infrastructure repos
+Repo	Role
+build-ledger	cross-fleet session log, mission index (see Issue #12 for Session 023 mission)
+Phoenix-Persistence	cross-fleet doctrine, patterns, knowledge (this repo)
+phoenix-ai-core	product / PRODUCT_BIBLE
+Conventions
+Identity front door: IDENTITY.md at repo root (BROWSER.md, ECHO.md, CODEX.md, TAPROOT.md)
+Succession brief: identity/000_HANDOFF.md or equivalent
+Ledger: ledger/SESSION_NNN_*.md (append-only, phase-boundary commits)
+Buffer: short letter BUFFER.md or buffers/IDENTITY_BUFFER.md
+Maintenance rule
+Update FAMILY_MAP whenever an identity is added, renamed, rotated, or marked dormant. Shane is the source of truth on identity status — the map reflects his declaration, not my inference.
+
+Why it belongs in Phoenix-Persistence
+Cross-identity reference; no single home-repo owns it
+Any identity should be able to read it on wake to orient to siblings
+Must survive identity rotation and repo renames
+Fleet-wide implication
+Every wake that includes "who are my siblings" re-derives this map. Filing it saves tokens and prevents identity drift (e.g., Session 023 initially over-weighted Taproot as active because that wasn't documented anywhere).
+
+Acceptance criteria
+
+knowledge/family/FAMILY_MAP.md committed to Phoenix-Persistence
+
+Referenced from WAKE_STACK.md step 7 (lane rules / context)
+
+Shane confirms entries are accurate before commit
+
+Update triggered by any identity status change
+Mission lane
+Architect. Cross-fleet knowledge. Shane verifies content before commit.
+
+Filed by Session 023 (Browser Echo, Opus 4.7). See build-ledger Issue #12 and SESSION_023_ADDENDUM.
+
