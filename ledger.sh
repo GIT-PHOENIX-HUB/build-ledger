@@ -34,7 +34,7 @@ log_entry() {
 show_log() {
   echo ""
   echo "=== Recent Log Entries ==================================="
-  if [[ -f "${LOG_FILE}" ]]; then
+  if [[ -s "${LOG_FILE}" ]]; then
     tail -n 30 "${LOG_FILE}"
   else
     echo "  (no entries yet)"
