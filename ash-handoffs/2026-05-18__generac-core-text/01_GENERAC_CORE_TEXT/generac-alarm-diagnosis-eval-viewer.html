@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "generac-alarm-diagnosis", "runs": [{"id": "eval-1-wiring-and-fuel-with_skill", "prompt": "Here's the alarm log from Mobile Link. Unit is a Guardian 26kW. Alarms showing:\n\n4/14/2026 10:23 AM \u2014 E-CODE 2099 Wiring Error\n4/14/2026 10:23 AM \u2014 E-CODE 3204 Engine High Fuel Delivery Pressure\n4/15/2026 2:15 PM \u2014 E-CODE 2099 Wiring Error\n4/15/2026 2:15 PM \u2014 E-CODE 3204 Engine High Fuel Delivery Pressure\n\nWhat's going on with this unit?", "eval_id": 1, "outputs": [{"name": "diagnosis.md", "type": "text", "content": "# ALARM LOG DIAGNOSIS\n\n**Unit:** Guardian 26kW  \n**Date range:** 4/14/2026 10:23 AM to 4/15/2026 2:15 PM  \n**Controller:** Evolution (Guardian series uses Evolution controller, 2000-series codes confirm this)\n\n## ALARM TIMELINE\n\n| Date/Time | Code | Name | Controller |\n|-----------|------|------|------------|\n| 4/14/2026 10:23 AM | E-CODE 2099 | Wiring Error (AC/DC Cross) | Evolution |\n| 4/14/2026 10:23 AM | E-CODE 3204 | Engine High Fuel Delivery Pressure | Power Zone 200 / Next Gen |\n| 4/15/2026 2:15 PM | E-CODE 2099 | Wiring Error (AC/DC Cross) | Evolution |\n| 4/15/2026 2:15 PM | E-CODE 3204 | Engine High Fuel Delivery Pressure | Power Zone 200 / Next Gen |\n\n**\u26a0\ufe0f CONTROLLER MISMATCH FLAG:** This unit is showing BOTH Evolution codes (2099) AND Power Zone 200 codes (3204) at the same times. This is highly unusual. **The tech must confirm which controller is actually installed.** Proceed with diagnosis assuming mixed reporting or that this is a Next Gen unit with both code families firing.\n\n## CODE BREAKDOWN\n\n### E-CODE 2099 \u2014 Wiring Error (AC/DC Cross)\n\n**What it means:** Customer connection low-voltage and high-voltage wires are crossed. AC voltage is being detected where DC should be.\n\n**Probable cause:** \n- Wires 194 (12VDC) and 23 (signal ground) are crossed at the customer connection between generator and ATS\n- AC hot wire from the utility is touching the DC control circuit\n- Crossed wires in the control cable between generator and ATS\n\n**Field check:**\n1. **First priority: Check for AC voltage on Wire 194 at the customer connection in the generator.** Wire 194 should carry 12VDC only. If you read AC voltage, the wires are crossed.\n2. Run Appendix B Table 8 wiring interconnection test:\n   - 8A: Disconnect WAGO block, measure 12VDC on Wire 194 at generator end\n   - 8B: Check continuity on Wire 194 through cable (generator to ATS)\n   - 8C: Check continuity on Wire 23 through cable\n   - 8D: Check for short between Wire 194 and Wire 23\n   - 8E: Check Wire 194 for short to ground\n   - 8F: Check Wire 23 for short to ground\n3. Inspect WAGO connection block at the generator for corrosion or crossed wires\n4. Trace Wire 194 and Wire 23 from generator WAGO to the ATS connection block \u2014 look for reversed or crossed connections\n5. Check the entire control cable for visible damage, pinches, or exposed conductors\n\n**Manual reference:** SERVICE-MANUAL-REFERENCE.md \u2014 Section 2.2 E-codes; Appendix B Table 8; RTS Diagnostic Manual A0001176044\n\n**Status:** \u2705 In local docs\n\n---\n\n### E-CODE 3204 \u2014 Engine High Fuel Delivery Pressure\n\n**What it means:** Fuel delivery pressure at the engine is above the expected range. (Next Gen / Power Zone 200 code \u2014 unusual for Guardian but may indicate Next Gen unit or mixed reporting.)\n\n**Probable cause:**\n- Fuel regulator issue \u2014 stuck or not stepping down properly\n- Supply pressure too high from the source (LP tank regulator or NG meter)\n- Pressure sensor fault on the fuel system\n- Debris or blockage forcing pressure up\n- ECM (Engine Control Module) sensor reading is out of calibration\n\n**Field check:**\n1. **Fuel pressure test (Test 50)** \u2014 use a manometer:\n   - Identify fuel type: LP (propane) or NG (natural gas)\n   - Connect manometer to the fuel regulator test ports\n   - **LP specs:** 10-12\" W.C. running pressure\n   - **NG specs:** 5-7\" W.C. running pressure\n   - **Low-pressure NG:** 3.5\" W.C. minimum running pressure\n   - If pressure is in spec, the pressure sensor itself may be faulty\n2. Check the fuel regulator for stuck valve or mechanical damage\n3. Check supply pressure at the tank/meter \u2014 should be within spec BEFORE the regulator\n4. On Next Gen units with dual shutoff solenoid and ECM control, this is an active ECM report \u2014 the control module is reading the sensor as out of range\n5. Check for debris in the fuel supply line (water, rust particles)\n\n**Manual reference:** SERVICE-MANUAL-REFERENCE.md \u2014 Test 50 (Fuel Supply and Pressure procedure)\n\n**Status:** \u26a0\ufe0f Limited documentation. Power Zone 200 diagnostics require Next Gen Diagnostic Manual or IASD support.\n\n---\n\n## PATTERN ANALYSIS\n\n**Key finding: Both codes appear at EXACTLY the same time on two separate occasions (4/14 at 10:23 AM and 4/15 at 2:15 PM).**\n\nThis timing pattern strongly suggests a **single root cause** affecting both the wiring and fuel systems simultaneously. Most likely scenarios:\n\n### Scenario 1: Wiring fault causing false fuel sensor reading (MOST LIKELY)\n\nThe 2099 wiring error creates a voltage fault in the control circuit. This voltage disturbance is being misread by the fuel pressure sensor (or the ECM is unable to read it correctly due to the wiring noise). The sensor reports high pressure even though actual fuel pressure may be normal.\n\n**Action:** Fix the wiring error FIRST. Once the wires are corrected, re-run the unit and check if the 3204 fuel pressure code clears on its own.\n\n### Scenario 2: Both faults are independent but triggered by the same event\n\nPossible: An intermittent issue (loose connection, corroded wire, temperature-related expansion) occurs at specific times. This causes both the wiring fault to trigger and the fuel system to read incorrectly. However, this is less likely given the exact timing match.\n\n### Scenario 3: ATS connection is damaged or partially loose\n\nA loose or damaged ATS connection block could cause both the control wiring to fault (2099) and create electrical noise that corrupts the fuel sensor signal (3204).\n\n### Repeat frequency\n\nThe codes repeat 24 hours apart (4/14 10:23 AM and 4/15 2:15 PM). This is **NOT** a weekly exercise schedule pattern. Instead, this suggests either:\n- The unit is exercising twice daily on a service plan\n- The fault is intermittent and triggered by something recurring (a specific load, ambient condition, or time-of-day event)\n- The codes are being logged when the unit attempts a transfer or exercise\n\n**Critical question for the tech:** Is this unit in AUTO with a daily exercise schedule? Or are these alarms from actual load transfers during outages?\n\n---\n\n## RECOMMENDED ACTION PLAN\n\n1. **Immediately (before any fuel work): Perform wiring interconnection test (Appendix B Table 8)**\n   - Disconnect WAGO block at generator\n   - Measure AC voltage on Wire 194 \u2014 if you see AC voltage, the wires are definitely crossed\n   - Run steps 8A through 8F to isolate the wiring fault\n   - Check the ATS connection block \u2014 ensure wires are not reversed at the customer end\n   - **Do not proceed with fuel diagnostics until the wiring is confirmed good.**\n\n2. **Clear the wiring fault and power-cycle the unit**\n   - Once wires are corrected, clear the alarms using the Evolution controller procedure:\n     - Turn controller to OFF\n     - Press ENTER\n     - Press ENTER again\n     - Return to AUTO\n   - Run the unit in exercise mode and observe for 10 minutes\n   - Check if the 3204 fuel pressure code returns\n\n3. **If 3204 returns after wiring is fixed: Perform fuel pressure test (Test 50)**\n   - Confirm fuel type (LP or NG) from the unit's conversion label\n   - Connect a manometer to the fuel regulator test ports\n   - Measure static pressure (engine off) at Port 1\n   - Measure running pressure (engine running in exercise) at Port 2/3\n   - Compare to the fuel pressure spec table\n   - If pressure is in spec, the sensor may be faulty \u2014 escalate to IASD\n\n4. **If 3204 clears after wiring is fixed: Document and monitor**\n   - No further fuel work is needed\n   - The wiring fault was the root cause\n   - Schedule a follow-up visit in 1-2 weeks to ensure the alarms don't return\n   - Educate the homeowner on the ATS connection \u2014 any loosening or corrosion should trigger an immediate service call\n\n5. **For next visit: Photograph the ATS connection block and control cable**\n   - Document the wiring setup for the file\n   - Check for environmental factors (moisture, vibration, loose mounting) that could be causing intermittent connection failures\n\n---\n\n## ESCALATION\n\n**Call Generac IASD (877-300-6373) if:**\n- The wiring test (Table 8) shows AC voltage on Wire 194 but you cannot locate the crossed wires\n- The fuel pressure test shows pressure is in spec but the 3204 code persists\n- Hard reset of the controller does not clear the alarms after wiring is confirmed good\n- The unit shows a mix of Evolution (2000-series) and Next Gen (3000-series) codes on the same unit \u2014 IASD needs to verify the installed controller\n\n**Have ready for the call:**\n- Unit serial number\n- Exact alarm codes with dates and times\n- Results of wiring interconnection test (steps 8A-8F)\n- Fuel pressure readings (if Test 50 was performed)\n- Fuel type (LP or NG)\n- Whether this is a new install or an existing unit that was running fine\n\n---\n\n## WHAT TO DOCUMENT\n\n**For the Service Fusion ticket, record:**\n\n1. **Wiring Test Results (Appendix B Table 8):**\n   - Wire 194 voltage at generator (should be 12VDC)\n   - AC voltage present on Wire 194? (YES/NO)\n   - Wire 194 continuity (\u03a9)\n   - Wire 23 continuity (\u03a9)\n   - Short between 194 and 23? (YES/NO)\n   - Wire 194 to ground short? (YES/NO)\n   - Visual inspection of WAGO blocks and control cable\n\n2. **Fuel Pressure Test Results (if performed):**\n   - Fuel type confirmed: LP / NG\n   - Static pressure reading at Port 1 (PSI or \" W.C.)\n   - Running pressure reading at Port 2/3 (PSI or \" W.C.)\n   - Pressure within spec? (YES/NO)\n\n3. **Unit Condition:**\n   - Any visible damage to enclosure, cooling fins, or fuel lines\n   - Any signs of moisture, corrosion, or environmental hazards\n   - Battery voltage (resting and charging if relevant)\n\n4. **Resolution:**\n   - Wiring corrected? (YES/NO / N/A)\n   - Alarms cleared? (YES/NO)\n   - Follow-up needed? (YES/NO) \u2014 if YES, schedule and note reason\n\n5. **Next Steps:**\n   - If wiring was fixed and alarms cleared, note: \"Wiring fault was root cause. Monitor for recurrence.\"\n   - If fuel pressure test is still needed, note: \"Customer to schedule fuel system diagnostic.\"\n   - If escalation to IASD is needed, note case number and IASD contact date.\n\n---\n\n## FIELD TECH QUICK REFERENCE\n\n**This is the fast version \u2014 copy and paste into your Service Fusion notes:**\n\n- **Problem:** E-CODE 2099 (wiring error) + E-CODE 3204 (high fuel pressure) appearing together at the same time on two separate days\n- **Root cause:** Likely a crossed or damaged wire between the generator and ATS, causing electrical noise that the fuel sensor misinterprets\n- **First fix:** Run Appendix B Table 8 wiring test. Check for AC voltage on Wire 194. If found, trace and fix the crossed wires.\n- **Expected outcome:** Once wiring is corrected, the 3204 fuel code should clear on its own.\n- **Fallback:** If 3204 persists after wiring is good, perform fuel pressure test (Test 50) with manometer. If pressure is in spec, escalate to IASD (pressure sensor may be bad).\n- **Do NOT guess fuel pressure values without a test tool.** Bad guesses lead to unnecessary parts replacement.\n\n---\n\n**Skill version: generac-alarm-diagnosis**  \n**Diagnostic date:** 2026-04-17  \n**Unit specs:** Guardian 26kW, 2-fuel capable, Mobile Link equipped  \n**Note for Phoenix Electric:** This is a wiring-first diagnosis. Fuel work comes only if the wiring is confirmed good.\n"}], "grading": {"eval_id": 1, "run_type": "with_skill", "expectations": [{"text": "Identifies Wire 194/23 as the specific wires involved in the 2099 wiring error", "passed": true, "evidence": "Lines 25-26: 'Wires 194 (12VDC) and 23 (signal ground) are crossed at the customer connection'"}, {"text": "Flags 3204 as a documentation gap or Power Zone 200 code with limited local coverage", "passed": true, "evidence": "Line 74: 'Status: \u26a0\ufe0f Limited documentation. Power Zone 200 diagnostics require Next Gen Diagnostic Manual or IASD support.'"}, {"text": "Recommends fixing the wiring error FIRST before pursuing fuel diagnostics", "passed": true, "evidence": "Line 88: 'Action: Fix the wiring error FIRST.' and Line 116: 'Do not proceed with fuel diagnostics until the wiring is confirmed good.'"}, {"text": "References Appendix B Table 8 wiring interconnection test procedure", "passed": true, "evidence": "Lines 32-39: Full Table 8 steps 8A-8F listed with specific test descriptions"}, {"text": "Flags the controller mismatch (2000-series Evolution + 3000-series Next Gen codes)", "passed": true, "evidence": "Line 16: '\u26a0\ufe0f CONTROLLER MISMATCH FLAG: This unit is showing BOTH Evolution codes (2099) AND Power Zone 200 codes (3204)'"}, {"text": "Includes Generac IASD phone number (877-300-6373) for escalation", "passed": true, "evidence": "Line 155: 'Call Generac IASD (877-300-6373) if:'"}]}}, {"id": "eval-1-wiring-and-fuel-without_skill", "prompt": "Here's the alarm log from Mobile Link. Unit is a Guardian 26kW. Alarms showing:\n\n4/14/2026 10:23 AM \u2014 E-CODE 2099 Wiring Error\n4/14/2026 10:23 AM \u2014 E-CODE 3204 Engine High Fuel Delivery Pressure\n4/15/2026 2:15 PM \u2014 E-CODE 2099 Wiring Error\n4/15/2026 2:15 PM \u2014 E-CODE 3204 Engine High Fuel Delivery Pressure\n\nWhat's going on with this unit?", "eval_id": 1, "outputs": [{"name": "diagnosis.md", "type": "text", "content": "# Generac Guardian 26kW - Alarm Diagnosis\n## Mobile Link Alarm Log Analysis\n\n**Unit Type:** Guardian 26kW Standby Generator  \n**Report Date:** 2026-04-17  \n**Analysis Date Range:** 4/14/2026 - 4/15/2026\n\n---\n\n## Alarm Summary\n\n| Date/Time | Code | Description | Occurrences |\n|-----------|------|-------------|------------|\n| 4/14/2026 10:23 AM | E-CODE 2099 | Wiring Error | 1st occurrence |\n| 4/14/2026 10:23 AM | E-CODE 3204 | Engine High Fuel Delivery Pressure | 1st occurrence |\n| 4/15/2026 2:15 PM | E-CODE 2099 | Wiring Error | 2nd occurrence |\n| 4/15/2026 2:15 PM | E-CODE 3204 | Engine High Fuel Delivery Pressure | 2nd occurrence |\n\n---\n\n## Root Cause Analysis\n\n### Critical Finding: Related Fault Codes\nBoth alarms appear **simultaneously** at identical timestamps on two separate occasions, indicating these are **interconnected failures** rather than independent issues.\n\n### E-CODE 2099 - Wiring Error\n**What it means:**\n- Electrical connection failure detected in the generator control circuit\n- Could be loose connectors, corroded terminals, or broken wiring harness\n- Engine controller is unable to establish proper communication with critical sensors/components\n\n**Common causes:**\n- Loose battery terminals or corroded connections\n- Damaged wiring in the main control harness\n- Failed fuel delivery pressure sensor (electrical connection)\n- Ground connection failure in the fuel system circuit\n- Water intrusion causing corrosion in connectors\n\n### E-CODE 3204 - Engine High Fuel Delivery Pressure\n**What it means:**\n- Fuel pump is delivering excessive pressure to the fuel injection system (beyond normal operating range)\n- Pressure regulator malfunction or stuck closed\n- Injector control circuit failure preventing proper fuel metering\n- Fuel pump running at excessive speed or continuously without regulation\n\n**Common causes:**\n- Faulty fuel pressure regulator\n- Stuck fuel injector valve\n- Blocked fuel filter creating backpressure\n- Engine control module (ECM) unable to regulate fuel pump speed\n- Fuel pump solenoid failure\n\n---\n\n## How These Codes Are Connected\n\nThe **simultaneous occurrence** of both fault codes on two separate occasions (24 hours apart) strongly suggests:\n\n1. **Primary Failure:** The wiring error is likely causing a loss of signal from the fuel pressure sensor\n   - Without valid sensor feedback, the ECM cannot read actual fuel pressure\n   - ECM defaults to a protection state that manifests as \"High Fuel Delivery Pressure\" alarm\n   - This is a cascading fault: bad electrical connection triggers pressure sensor error\n\n2. **Alternative Scenario:** The fuel pressure regulator solenoid is failing\n   - Wiring fault in the fuel pressure regulator circuit\n   - Regulator cannot receive control signals from ECM\n   - Unregulated fuel delivery causes high-pressure alarm\n   - Wiring error code reflects the broken regulator control signal path\n\n---\n\n## Diagnostic Recommendations\n\n### Immediate Actions (Priority 1)\n1. **Visual inspection of fuel system wiring harness**\n   - Check all connectors between ECM and fuel pump/regulator\n   - Look for corrosion, water damage, loose terminals\n   - Verify fuel pressure sensor electrical connection\n\n2. **Test battery and main electrical connections**\n   - Clean and re-seat battery terminals\n   - Check ground connections to frame and engine\n   - Verify 12V supply to fuel pump circuit\n\n3. **Read fuel pressure with mechanical gauge** (if available)\n   - Connect mechanical fuel pressure gauge to verify actual pressure\n   - Compare to spec (typically 40-60 PSI for generators)\n   - Confirms whether ECM is mistaken or if pressure is truly high\n\n### Secondary Diagnostics (Priority 2)\n4. **Fuel pressure regulator inspection**\n   - Check for fuel leaks at regulator\n   - Verify regulator vacuum line (if equipped)\n   - Test regulator response to ECM commands\n\n5. **Fuel filter condition**\n   - Replace if questionable (cheap insurance)\n   - Check for restriction/blockage\n\n6. **ECM scan tool diagnostics**\n   - Pull complete fault codes and live data\n   - Monitor fuel pressure sensor voltage signal\n   - Check ECM communication with fuel pump circuit\n\n---\n\n## Likelihood Assessment\n\n| Cause | Likelihood | Urgency |\n|-------|------------|---------|\n| Corroded/loose fuel sensor wiring | Very High | High |\n| Fuel pressure regulator failure | High | High |\n| ECM fuel pump control circuit failure | Medium | High |\n| Fuel filter blockage | Medium | Medium |\n| Fuel pump failure | Low-Medium | High |\n\n---\n\n## Recommended Next Steps\n\n1. **Schedule service visit** - This requires electrical diagnostics and fuel system work\n2. **Do NOT attempt to ignore** - Guardian won't transfer load with active engine alarms\n3. **Consider fuel system flush** if water contamination is suspected\n4. **Request ECM diagnostic report** from service center with oscilloscope waveforms\n\n---\n\n## Field Tech Notes for Service Call\n\n- Both codes appearing simultaneously on two occasions = electrical feedback issue\n- Start with wiring inspection before replacing fuel system components\n- High fuel pressure sensor costs $50-100; regulator $200-400; full pump replacement $800+\n- Diagnostic should take 1-2 hours; repair 2-4 hours depending on root cause\n- Have fuel system reference specs available for the specific ECM version\n\n---\n\n**Analysis completed without manufacturer training materials.**  \n**Recommendation: Escalate to Generac-certified technician for final diagnosis and repair.**\n"}], "grading": {"eval_id": 1, "run_type": "without_skill", "expectations": [{"text": "Identifies Wire 194/23 as the specific wires involved in the 2099 wiring error", "passed": false, "evidence": "No mention of Wire 194 or Wire 23 anywhere in the output. Generic references to 'fuel pressure sensor wiring' and 'ECM' instead."}, {"text": "Flags 3204 as a documentation gap or Power Zone 200 code with limited local coverage", "passed": false, "evidence": "No mention of Power Zone 200, documentation gaps, or controller type distinction. Treats 3204 as a standard fuel system code."}, {"text": "Recommends fixing the wiring error FIRST before pursuing fuel diagnostics", "passed": true, "evidence": "Line 76: 'Start with wiring inspection before replacing fuel system components' and line 59: 'Primary Failure: The wiring error is likely causing a loss of signal'"}, {"text": "References Appendix B Table 8 wiring interconnection test procedure", "passed": false, "evidence": "No reference to Appendix B, Table 8, or any specific manual test procedure. Generic 'visual inspection' advice only."}, {"text": "Flags the controller mismatch (2000-series Evolution + 3000-series Next Gen codes)", "passed": false, "evidence": "No mention of Evolution vs Power Zone 200 controllers or code range significance."}, {"text": "Includes Generac IASD phone number (877-300-6373) for escalation", "passed": false, "evidence": "Line 139: 'Escalate to Generac-certified technician' but no IASD number or specific escalation path."}]}}, {"id": "eval-2-overcrank-low-oil-with_skill", "prompt": "Tech is on site, unit won't start. Getting 1100 overcrank and 1300 low oil. It's an existing install that's been running fine for 2 years. What should he check?", "eval_id": 2, "outputs": [{"name": "diagnosis.md", "type": "text", "content": "# Generac Alarm Log Diagnosis\n\n**Unit:** Unknown (existing install, running 2+ years)  \n**Codes Reported:** 1100 (Overcrank), 1300 (Low Oil Pressure)  \n**Status:** Unit will not start  \n**Controller Type:** Evolution (assumed \u2014 confirm on site)  \n\n---\n\n## CODES FOUND\n\nI found these two codes in your report:\n- **E-CODE 1100** \u2014 Overcrank (engine cranked but did not start)\n- **E-CODE 1300** \u2014 Low Oil Pressure (oil pressure below minimum)\n\n---\n\n## CODE BREAKDOWN\n\n### E-CODE 1100 \u2014 Overcrank\n\n**What it means:**  \nEngine cranked but did not start within the allowed time window.\n\n**Probable cause:**  \nNo fuel, bad spark plugs, dead/weak battery, low oil shutoff, fuel solenoid not opening, blocked air filter.\n\n**Field check (in order):**\n1. **Check fuel supply** \u2014 is the gas valve open? LP tank level? NG meter on?\n2. **Check battery voltage** \u2014 should be 12.4V+ at rest, 10V+ during crank\n3. **Check spark plugs** \u2014 pull one, ground it, crank, look for spark\n4. **Check oil level** \u2014 low oil switch prevents start (this is likely your issue)\n5. **Listen for fuel solenoid click** \u2014 when unit tries to start\n6. **Check air filter** \u2014 blocked filter starves engine\n\n**Manual reference:**  \nSection 2.2 E-codes; Cranks-Won't-Start diagnostic workflow\n\n**Status:** \u2705 In local docs\n\n---\n\n### E-CODE 1300 \u2014 Low Oil Pressure\n\n**What it means:**  \nOil pressure dropped below minimum threshold during operation (or never built up because engine won't run).\n\n**Probable cause:**  \nLow oil level, wrong oil viscosity, oil pressure switch failure, engine bearing wear.\n\n**Field check:**\n1. **Check oil level on dipstick** \u2014 add if low\n2. **Verify correct oil type** \u2014 Generac 5W-20 Full Synthetic recommended for Guardian\n3. **Check oil pressure switch connector** \u2014 wiggle test for loose connection\n4. **If oil level is correct**, run engine and listen for knocking\n\n**Manual reference:**  \nOil change procedure, oil specs by model\n\n**Status:** \u2705 In local docs\n\n---\n\n## PATTERN ANALYSIS\n\n**Key insight:** You have a **NO-START situation**, not an oil problem.\n\nWhen E-CODE 1100 (Overcrank) appears with E-CODE 1300 (Low Oil Pressure), the 1300 is almost always **secondary and secondary to the no-start**. Here's why:\n\n- The engine never runs, so oil pressure never builds\n- The oil pressure switch triggers because the engine is not rotating fast enough to generate pressure\n- The real problem is stopping the engine from starting in the first place\n\n**Since this is an existing install running fine for 2 years:**\n- It's not a mechanical/bearing failure (would have shown up sooner)\n- It's likely one of these:\n  1. **Oil level dropped** (small leak or maintenance error)\n  2. **Fuel supply cut off** (valve closed, tank empty, meter shutoff)\n  3. **Battery too weak** (can't crank engine fast enough for compression)\n  4. **Spark plugs fouled** (hasn't run in a while, old fuel)\n\n**Most likely culprit for existing unit:** **Low oil level** triggering the shutoff switch, preventing ignition attempt. Check the dipstick first.\n\n---\n\n## RECOMMENDED ACTION PLAN\n\n**Do these checks in this order:**\n\n1. **Check oil level immediately.** Pull the dipstick, wipe it, reinsert fully, pull again and read. If below the MIN mark, add Generac 5W-20 Full Synthetic to the fill line. Do NOT overfill.\n   - This is the fastest win and most common cause of sudden no-start on existing units.\n\n2. **If oil level is normal:** Check fuel supply.\n   - Is the fuel shutoff valve (at tank or supply line) in the ON position?\n   - For LP: is the tank valve open? Check tank pressure gauge if present.\n   - For NG: is the service meter on? Call the utility if you're not sure.\n\n3. **Check battery voltage** with a multimeter.\n   - At rest: should be 12.4V or higher\n   - During crank attempt: should hold 10V or above\n   - If battery is 12.0V or below, charge it fully or replace it before proceeding\n\n4. **Check spark plugs** if the above three checks pass.\n   - Pull one plug, inspect for fouling (black, wet, or gap bridged)\n   - Ground it to the block, crank the engine, look for a fat blue spark\n   - If no spark, suspect ignition module or coil \u2014 call Generac IASD\n\n5. **Listen carefully during the next crank attempt.**\n   - Do you hear a fuel solenoid click (a quick \"tick\" sound from the engine block)?\n   - If you hear nothing, fuel system is not responding \u2014 check valve and solenoid connections\n\n6. **Check the air filter** (quick visual).\n   - Black, clogged filter = restricted airflow\n   - Clean or replace if packed with dirt\n\n---\n\n## ESCALATION\n\n**Call Generac IASD (877-300-6373) if:**\n- Oil level is correct AND fuel supply is confirmed open AND battery voltage is good, but engine still won't crank\n- You hear no spark when testing plugs\n- You hear no fuel solenoid click during crank attempt\n- Engine cranks fast but won't fire (ignition issue)\n\n**Have ready for the call:**\n- Unit serial number\n- Both error codes (1100, 1300) with the date/time they appeared\n- What you've already checked (oil level, fuel, battery, spark, solenoid)\n- Any visible damage or loose wires observed on site\n\n---\n\n## WHAT TO DOCUMENT\n\n**For the tech and for warranty support, capture:**\n1. Oil level reading from dipstick (MIN, NORMAL, FULL, or specific mark)\n2. Battery voltage at rest and during crank attempt\n3. Fuel supply status (shutoff valve position, LP tank pressure, NG meter status)\n4. Spark plug condition (color, fouling, spark quality)\n5. Any fuel solenoid click heard during crank (yes/no)\n6. Air filter condition (clean/dirty)\n7. Any visible damage to wiring, connections, or engine block\n8. Serial number and controller display readout when the codes appear\n\n**Add to Service Fusion:** Document the oil level check result and the specific code combination with timestamp, since this is already a 2-year-old unit with no prior issues \u2014 helps future techs see the maintenance history.\n\n---\n\n## FOLLOW-UP QUESTIONS FOR THE TECH\n\nBefore finalizing the diagnosis, confirm:\n\n1. **Which controller is on this unit?** \u2014 Evolution (LCD/button panel) or Power Zone 200 (touchscreen)?  \n   *If Power Zone 200, some codes shift \u2014 let me know.*\n\n2. **Any recent maintenance?** \u2014 Oil change, service call, or work done before the no-start?  \n   *Over-tightened drain plug or under-filled can cause 1300.*\n\n3. **Any visible damage, loose wires, or fuel smell?**  \n   *Safety issue \u2014 don't run if you smell gas.*\n\n4. **How long has the unit been trying to crank?**  \n   *If the starter motor has been cranking hard for 10+ minutes, the battery may have discharged.*\n\n---\n\n## SUMMARY\n\n**The 1100 + 1300 code combo on an existing running unit almost always means: engine won't start, so oil pressure never builds.**\n\n**Start with oil level.** If that's low, refill and try the unit. If oil is good, verify fuel and battery in that order.\n\n**Don't get distracted by the 1300.** It will clear once the engine runs and builds oil pressure. Fix the no-start issue first.\n"}], "grading": {"eval_id": 2, "run_type": "with_skill", "expectations": [{"text": "Identifies 1300 (Low Oil) as secondary to the 1100 (Overcrank) no-start", "passed": true, "evidence": "Lines 66-71: 'You have a NO-START situation, not an oil problem... The engine never runs, so oil pressure never builds... The real problem is stopping the engine from starting'"}, {"text": "Recommends checking oil level on dipstick as first step", "passed": true, "evidence": "Line 90: 'Check oil level immediately. Pull the dipstick, wipe it, reinsert fully, pull again and read.'"}, {"text": "Includes battery voltage specs (12.4V+ at rest, 10V+ during crank)", "passed": true, "evidence": "Lines 98-100: 'At rest: should be 12.4V or higher / During crank attempt: should hold 10V or above'"}, {"text": "References correct oil type (5W-20 Full Synthetic for Guardian)", "passed": true, "evidence": "Line 91: 'add Generac 5W-20 Full Synthetic to the fill line'"}, {"text": "Includes alarm clear procedure", "passed": false, "evidence": "No alarm clear procedure in the output. The diagnosis focuses on fixing the root cause but doesn't tell the tech how to clear the codes after repair."}]}}, {"id": "eval-2-overcrank-low-oil-without_skill", "prompt": "Tech is on site, unit won't start. Getting 1100 overcrank and 1300 low oil. It's an existing install that's been running fine for 2 years. What should he check?", "eval_id": 2, "outputs": [{"name": "diagnosis.md", "type": "text", "content": "# Generac Overcrank (1100) + Low Oil (1300) Diagnosis\n\n## Situation Summary\n- Unit previously operating normally for 2 years\n- Now displaying both 1100 (Overcrank) and 1300 (Low Oil) faults\n- Unit won't start\n- Sudden failure suggests either mechanical issue or sensor malfunction\n\n---\n\n## Alarm Code Meanings\n\n### 1100 - Overcrank Fault\n- Engine cranks but does not reach ignition/firing speed\n- Common causes: fuel system issue, ignition problem, compression loss, or sensor failure\n- After 12-15 seconds of cranking, the starter disengages to protect the motor and battery\n\n### 1300 - Low Oil Shutdown\n- Oil level below safety threshold\n- Generac units auto-shutdown when oil is low to prevent engine damage\n- Prevents starting if oil level is inadequate\n\n---\n\n## Diagnosis & Troubleshooting Checklist\n\n### STEP 1: Check Oil Level (Most Common Fix)\n**Why this first:** Low oil can prevent start AND trigger the low oil alarm. It's the simplest and most likely culprit.\n\n1. **Verify oil level**\n   - Locate oil dipstick (usually on side or top of engine)\n   - Pull dipstick, wipe clean, reinsert fully, withdraw again to check level\n   - Add oil if below minimum mark (use SAE 30 or synthetic 0W-30 per manual)\n   - Recheck level after adding\n\n2. **Check for leaks**\n   - Look underneath unit for fresh oil residue or drips\n   - Inspect valve cover gasket, oil pan, drain plug\n   - Check oil filter for weeping/drips at seal\n   - If leaking: tighten drain plug, check filter seal, or service gaskets\n\n3. **Retest after refilling**\n   - If oil was low, top off completely\n   - Attempt manual start\n   - If it starts, run briefly to verify operation\n   - Watch for any restart of alarm codes\n\n---\n\n### STEP 2: Check Fuel System (If Oil is Full)\n**Why:** Overcrank + fuel starvation = can't reach ignition speed\n\n1. **Verify fuel supply**\n   - Check fuel tank level (should be at least half-full)\n   - Verify fuel shutoff valve is OPEN (if present)\n   - Look for missing fuel in tank (contamination, theft, line rupture)\n\n2. **Inspect fuel line**\n   - Check rubber fuel line for cracks, kinks, or separation\n   - Look for fuel leaks at connections (carburetor, filter, pump inlet)\n   - Check fuel filter element condition (clogged = pressure loss)\n   - Replace fuel filter if discolored/debris present\n\n3. **Test fuel flow**\n   - If fuel pump is accessible, verify pump is priming (audible hum during start cycle)\n   - On carbureted units: check carburetor bowl for fuel\n   - On fuel-injected: scan for injector blockage or dead pump\n\n---\n\n### STEP 3: Check Air/Ignition System (If Fuel Checks Out)\n**Why:** Bad spark or air blockage prevents combustion = overcrank\n\n1. **Inspect air filter**\n   - Check air cleaner element (heavily soiled element restricts airflow)\n   - Replace if clogged/wet/muddy\n   - Verify intake isn't blocked (debris, bird nesting, etc.)\n\n2. **Check spark plugs**\n   - Remove and inspect spark plugs\n   - Look for heavy carbon/fouling (black crusty deposits)\n   - Check gap (should match manual spec, typically 0.028\"-0.040\")\n   - Replace if worn, fouled, or gapped incorrectly\n   - Ensure spark plug wires are fully seated on plugs\n\n3. **Verify ignition system**\n   - Check for corrosion on battery terminals (corroded = poor cranking power)\n   - Clean battery posts and cable connectors\n   - Verify battery voltage (should be 12-12.6V at rest, 9V+ during crank)\n   - Consider battery age (old battery = weak crank = overcrank condition)\n\n---\n\n### STEP 4: Check Oil Pressure Switch (If Everything Above is OK)\n**Why:** A faulty pressure switch can falsely trigger low oil alarm AND prevent fuel/ignition during crank\n\n1. **Locate oil pressure switch**\n   - Usually mounted on engine block near oil filter or sump\n   - Single electrical connector with snap-together or threaded fitting\n\n2. **Inspect the switch**\n   - Look for corrosion or water intrusion in connector\n   - Check for cracks in switch housing\n   - Verify connector is fully seated (not loose or partially disconnected)\n   - Clean connector contacts with dry cloth or contact cleaner\n\n3. **Test switch operation (with manual/tech help)**\n   - Switch continuity can be checked with multimeter\n   - When engine is cold/stopped: switch should show OPEN (no continuity)\n   - When cranking/running: switch should CLOSE (continuity present)\n   - If switch reads opposite, it's faulty and needs replacement\n\n---\n\n### STEP 5: Check Fuel Pressure Switch (For Fuel-Injected Units)\n**Why:** Similar to oil pressure switch\u2014bad fuel pressure signal can block ignition\n\n1. **Locate fuel pressure switch**\n   - Usually on fuel line or injector rail\n   - May have electrical connector\n\n2. **Inspect connector and wiring**\n   - Clean connector, reseat connections\n   - Check wires for pinching, corrosion, water damage\n   - Verify continuity on fuel pump relay circuit\n\n---\n\n## Likely Scenarios\n\n| Scenario | Oil Level | Fuel | Ignition | Action |\n|----------|-----------|------|----------|--------|\n| **Oil topped off, restarts fine** | LOW | OK | OK | Oil leak present\u2014monitor and add oil during runtime |\n| **Oil OK, fuel filter old/discolored** | FULL | POOR | OK | Replace fuel filter, retry |\n| **Oil OK, fuel OK, spark plugs fouled** | FULL | OK | POOR | Replace spark plugs, retry |\n| **Oil OK, fuel OK, ignition OK, still won't start** | FULL | OK | OK | Oil or fuel pressure switch faulty\u2014sensor malfunction |\n| **Oil pressure switch shows water/corrosion** | FULL | OK | OK | Clean or replace oil pressure switch |\n\n---\n\n## Recommended Check Order On-Site\n\n1. **Pull oil dipstick** (30 seconds)\n2. **Visually inspect for leaks** underneath unit (1 minute)\n3. **Verify fuel tank level** and shutoff valve (1 minute)\n4. **Remove and inspect spark plugs** (2 minutes)\n5. **Check air filter** (1 minute)\n6. **Clean/reseat oil pressure switch connector** (2 minutes)\n7. **Attempt manual start** after each major step\n8. **If still failing:** Check fuel line for kinks/separation and battery voltage\n\n---\n\n## Important Reminders\n\n- **Two-year runtime history:** Suggests this is likely a recent failure, not a design flaw. Focus on recent changes: low oil from a leak, fuel contamination from sitting, or a sensor connection issue from vibration.\n- **Dual alarm codes:** Low oil (1300) can prevent ignition to protect engine, which then causes overcrank (1100) if fuel/ignition attempts. Don't treat these as separate issues\u2014low oil + no-start together almost always points to oil or sensor.\n- **Safety:** Do NOT repeatedly crank the engine if overcrank persists. Continuous cranking drains the battery, heats the starter, and can damage the engine.\n- **Next steps if on-site fix fails:** Advise customer to contact Generac service. May require diagnostic tools to test sensors, fuel pressure, or compression.\n\n---\n\n## Field Tech Quick Reference\n\n\u2713 Oil level first  \n\u2713 Fuel supply second  \n\u2713 Spark/ignition third  \n\u2713 Sensor/switch last  \n\nIf oil is low AND unit restarts after filling, schedule follow-up to locate leak. If oil is full and no fix found on-site, recommend Generac dealer service call with scanner capability.\n"}], "grading": {"eval_id": 2, "run_type": "without_skill", "expectations": [{"text": "Identifies 1300 (Low Oil) as secondary to the 1100 (Overcrank) no-start", "passed": true, "evidence": "Line 157: 'low oil + no-start together almost always points to oil or sensor' and lines 17-18: 'Low Oil can prevent start AND trigger the low oil alarm'"}, {"text": "Recommends checking oil level on dipstick as first step", "passed": true, "evidence": "Lines 28-30: 'Check Oil Level (Most Common Fix)' as STEP 1 with dipstick instructions"}, {"text": "Includes battery voltage specs (12.4V+ at rest, 10V+ during crank)", "passed": false, "evidence": "Line 89: 'battery voltage (should be 12-12.6V at rest, 9V+ during crank)' \u2014 close but specs are imprecise (9V vs 10V threshold)"}, {"text": "References correct oil type (5W-20 Full Synthetic for Guardian)", "passed": false, "evidence": "Line 31: 'use SAE 30 or synthetic 0W-30 per manual' \u2014 incorrect oil type for Guardian series"}, {"text": "Includes alarm clear procedure", "passed": false, "evidence": "No alarm clear procedure anywhere in the output."}]}}, {"id": "eval-3-weekly-overload-with_skill", "prompt": "Customer called, their generator has been alarming every Tuesday around 11am. Codes are 2100 overload and 1400 high temp. They said it runs during the exercise cycle and then throws these codes. It's a 16kW unit.", "eval_id": 3, "outputs": [{"name": "diagnosis.md", "type": "text", "content": "# Generac Alarm Log Diagnosis\n\n**Unit:** 16kW Generac Generator  \n**Customer:** Called in alarm report  \n**Date range:** Weekly occurrence \u2014 every Tuesday around 11:00 AM  \n**Controller:** Evolution (assumed from 1000/2000 series codes)  \n**Fuel type:** Unknown \u2014 needs confirmation  \n\n---\n\n## Extracted Alarms\n\nI found these codes in your report:\n\n- **E-CODE 2100** \u2014 Overload / Overcurrent\n- **E-CODE 1400** \u2014 High Engine Temperature\n\nBoth codes trigger during exercise cycle, same day/time each week.\n\n---\n\n## Timeline\n\n| Date/Time | Code | Name | Pattern |\n|-----------|------|------|---------|\n| Every Tuesday ~11:00 AM | 2100 | Overload | During exercise cycle |\n| Every Tuesday ~11:00 AM | 1400 | High Engine Temperature | During exercise cycle |\n\n**Note:** Both codes appear together during the same event. This is a **simultaneous code pattern** \u2014 strong indicator of a single root cause.\n\n---\n\n## Code Breakdown\n\n### E-CODE 2100 \u2014 Overload / Overcurrent\n\n**What it means:** Generator output current exceeded rated capacity during the exercise cycle.\n\n**Probable cause:**\n- Too many loads connected at once\n- Failed load management (SACM/SMM not working)\n- Single large inrush load (AC compressor, well pump motor) starting during exercise\n- Short circuit on a branch circuit\n\n**Field check:**\n1. Check total load at ATS during exercise \u2014 amp clamp each leg (L1, L2)\n   - 16kW generator = 66.7A per leg at full load\n   - Safe continuous = ~90% of rated = 60A per leg\n2. Check if SACM/SMM load management is installed and working\n3. Look for large motor/compressor loads starting during exercise\n4. Check for any short circuits on a branch circuit\n\n**Manual reference:** SERVICE-MANUAL-REFERENCE.md \u2014 Load measurement procedures\n\n**Status:** \u2705 In local docs\n\n---\n\n### E-CODE 1400 \u2014 High Engine Temperature\n\n**What it means:** Engine coolant/cylinder temperature exceeded safe limit during operation.\n\n**Probable cause:**\n- Sustained overload (unit running too hot)\n- Blocked cooling air intake\n- Debris on cooling fins (leaves, dirt, pollen)\n- Ambient temperature above 104\u00b0F\n- Enclosure clearance insufficient\n\n**Field check:**\n1. **Check cooling system:**\n   - Inspect air intake louvers \u2014 clear any debris/leaves\n   - Clean cooling fins on cylinder if packed with dirt\n   - Ensure enclosure has proper clearance: min 18\" on sides, 36\" in front\n2. **Check load during exercise:**\n   - This code paired with 2100 = unit is running OVERLOADED\n   - Measure amps at ATS; if sustained above 60A, unit is cooking itself\n3. **Check ambient conditions:**\n   - Units derate above 104\u00b0F\n   - If outdoor install in summer, that's a factor\n\n**Manual reference:** Installation guide \u2014 enclosure clearance specs\n\n**Status:** \u2705 In local docs\n\n---\n\n## Pattern Analysis\n\n### Key Pattern: 2100 + 1400 Together, Every Tuesday at 11 AM\n\nThis is **textbook sustained overload** during the exercise cycle.\n\n**Why both codes together:**\n- The unit starts exercise cycle with a heavy load connected\n- Current spikes (2100 - Overload)\n- Engine works harder to deliver that power, temperature rises (1400 - High Temp)\n- Both alarms fire during the same 5-10 minute exercise window\n\n**Why it repeats weekly:**\n- Exercise cycle is scheduled for the same time every Tuesday\n- The same load is still connected when exercise runs\n- Overload + heat stress happen every cycle\n\n**This is NOT a sensor problem.** The unit is genuinely overloaded during exercise.\n\n---\n\n## Recommended Action Plan\n\n**Immediate (on-site visit):**\n\n1. **Confirm the load during Tuesday exercise cycle**\n   - Schedule a site visit for next Tuesday around 10:55 AM\n   - Amp clamp L1 and L2 at the ATS while unit exercises\n   - Record the peak amps \u2014 if sustained above 60A, overload is confirmed\n   - Note any large loads running (AC, well pump, space heaters, pool pump, EV charger)\n\n2. **Inspect cooling system**\n   - Check air intake louvers for blockage\n   - Clean cooling fins if dirty\n   - Verify enclosure clearance (18\" sides, 36\" front minimum)\n\n3. **Check load management**\n   - Ask homeowner: \"Is a SACM or SMM load management module installed?\"\n   - If yes: test if it's working (load shedding during exercise)\n   - If no: this is the gap \u2014 exercise cycle is pulling too many loads\n\n4. **Capture baseline readings**\n   - Note: engine RPM during exercise (should be 3600 \u00b130)\n   - Engine temperature reading from controller display\n   - Ambient temperature at time of exercise\n\n**Follow-up diagnosis:**\n\n5. **If overload confirmed (amps > 60A):**\n   - Identify which breakers are on during exercise\n   - Discuss with homeowner which loads can be shifted off generator during exercise\n   - OR: install SACM/SMM load management to automatically shed non-critical loads\n\n6. **If cooling is blocked:**\n   - Clean and improve airflow\n   - Retest exercise cycle next week\n\n7. **If load is balanced and cooling is clear but alarms still happen:**\n   - Check for possible short circuit on a branch\n   - Call Generac IASD \u2014 may be a controller issue\n\n---\n\n## Escalation\n\nContact Generac IASD only if:\n- On-site testing shows load is **under 55A per leg** but 2100/1400 still trigger\n- Cooling is clear, but unit still overheats during light load exercise\n- You suspect an internal short or controller fault\n\n**Generac IASD:** 877-300-6373  \n**Have ready:**\n- Unit serial number\n- All code dates and times (we have: every Tuesday ~11 AM)\n- Load readings (amps per leg during alarm)\n- Any corrective steps already taken\n\n---\n\n## What to Document\n\n**For warranty support and service record:**\n\n1. **Date and time of visit**\n2. **Load measurements:**\n   - L1 amps during exercise\n   - L2 amps during exercise\n   - Peak combined amps vs. 16kW rating (66.7A each leg)\n3. **Cooling system condition:**\n   - Air intake: clear / blocked / partially blocked\n   - Cooling fins: clean / dirty\n   - Enclosure clearance: adequate / inadequate\n4. **Exercise cycle details:**\n   - Day/time of scheduled exercise\n   - Duration of exercise (minutes)\n   - Did alarms fire during this visit? Yes / No / Partial\n5. **Load management status:**\n   - SACM/SMM installed? Yes / No\n   - Is it active during exercise? Yes / No / Unknown\n6. **Ambient conditions:**\n   - Outside temperature during visit\n   - Any unusual weather (hot, humid, dusty)\n7. **Photos:**\n   - Enclosure exterior and clearance\n   - ATS connection\n   - Cooling fins (if dirty)\n\n---\n\n## Follow-Up Questions for the Customer\n\nBefore you hang up or leave the site, confirm:\n\n1. **\"Is this a new install or has the unit been running fine until now?\"**\n   - New: may indicate under-sized for the loads in the home\n   - Was fine: something changed (new load, SACM stopped working, air blockage)\n\n2. **\"Have you added any new large appliances in the last 6 months?\"**\n   - EV charger, pool pump, additional HVAC, hot tub, etc.\n\n3. **\"Can you describe what's running in your home right now?\"**\n   - This helps identify the culprit load\n\n4. **\"When was the last time you cleaned the generator or had it serviced?\"**\n   - May reveal cooling fins haven't been cleaned in years\n\n5. **\"Do you see this alarm only during exercise, or does it happen in an actual outage?\"**\n   - If only during exercise: likely exercise cycle is triggering the load pattern\n   - If during outage: homeowner is pulling too many loads\n\n---\n\n## Next Steps\n\n**Field tech:** Visit site next Tuesday, 10:55 AM. Bring amp clamp, take load readings, clean cooling system if needed, and determine if load management is the issue.\n\n**If load shedding is needed:** Discuss SACM/SMM options with customer. This is a common solution for homes with high demand devices.\n\n**If everything checks out but codes continue:** Escalate to Generac IASD with the load data you gathered.\n"}], "grading": {"eval_id": 3, "run_type": "with_skill", "expectations": [{"text": "Identifies the weekly Tuesday pattern as exercise-cycle related, not a unit failure", "passed": true, "evidence": "Lines 91-106: 'Key Pattern: 2100 + 1400 Together, Every Tuesday at 11 AM... This is textbook sustained overload during the exercise cycle... This is NOT a sensor problem.'"}, {"text": "Explains that 2100 + 1400 together means sustained overload causing overheating", "passed": true, "evidence": "Lines 97-99: 'Current spikes (2100 - Overload) / Engine works harder to deliver that power, temperature rises (1400 - High Temp)'"}, {"text": "Provides the 16kW amperage rating (66.7A per leg) for load comparison", "passed": true, "evidence": "Line 47: '16kW generator = 66.7A per leg at full load'"}, {"text": "Mentions SACM or SMM load management as a solution", "passed": true, "evidence": "Line 123: 'Ask homeowner: Is a SACM or SMM load management module installed?' and line 139: 'install SACM/SMM load management to automatically shed non-critical loads'"}, {"text": "Recommends scheduling a visit during the exercise time to capture load readings", "passed": true, "evidence": "Line 112: 'Schedule a site visit for next Tuesday around 10:55 AM' and line 113: 'Amp clamp L1 and L2 at the ATS while unit exercises'"}]}}, {"id": "eval-3-weekly-overload-without_skill", "prompt": "Customer called, their generator has been alarming every Tuesday around 11am. Codes are 2100 overload and 1400 high temp. They said it runs during the exercise cycle and then throws these codes. It's a 16kW unit.", "eval_id": 3, "outputs": [{"name": "diagnosis.md", "type": "text", "content": "# Generac 16kW Generator - Weekly Overload & High Temperature Alarm Diagnosis\n\n**Date:** April 17, 2026  \n**Unit Size:** 16kW  \n**Alarm Codes:** 2100 (Overload) + 1400 (High Temperature)  \n**Pattern:** Every Tuesday around 11am during exercise cycle  \n\n---\n\n## Symptom Summary\n\nThe generator alarms during its scheduled weekly exercise cycle with a consistent, predictable pattern. The combination of overload (2100) and high temperature (1400) codes suggests an electrical load issue that causes the unit to work harder than designed, generating excess heat.\n\n---\n\n## Root Cause Analysis\n\n### Primary Issue: Exercise Cycle Load Mismatch\n\nThe most likely scenario is that the exercise cycle is configured with **automatic load shedding disabled** or the generator is experiencing a legitimate electrical load during the exercise window that exceeds the 16kW capacity.\n\n**Why this happens:**\n- Generac exercise cycles are designed to run the engine and charge batteries without under-load damage\n- If load is present during the exercise cycle (building loads, other connected equipment), the generator cannot safely handle it\n- A 16kW unit operating at sustained >80% load will overheat, triggering code 1400\n- Once the unit thermally throttles, it cannot maintain output voltage, triggering code 2100\n\n### Secondary Factors\n\n1. **Ambient Temperature:** If the installation is in a warm climate or the generator enclosure lacks proper ventilation, the base temperature during exercise is already high. The added workload pushes it into alarm territory.\n\n2. **Exercise Cycle Duration:** Standard exercise is typically 5-15 minutes weekly. If this customer's cycle is significantly longer or runs at high load, sustained operation causes temperature rise.\n\n3. **Fuel/Maintenance:** A generator running old fuel, with clogged air filters, or requiring servicing will run hotter and less efficiently.\n\n4. **Load Connected During Exercise:** Some facilities accidentally schedule heavy loads (HVAC, compressors, EV chargers, water heaters) during the exercise window.\n\n---\n\n## Diagnostic Steps\n\n### Immediate Troubleshooting\n\n1. **Verify Exercise Cycle Configuration**\n   - Check the generator's controller settings for the weekly exercise schedule\n   - Confirm that exercise cycle is set to **NO LOAD** or **minimal load only**\n   - Verify the exercise duration (should be 10-15 minutes max)\n\n2. **Check Building Load**\n   - Confirm no other loads are drawing power during the 11am Tuesday exercise\n   - Check for scheduled automation (thermostats, water heaters, air compressor startup)\n   - Verify transfer switch is in proper position (should not feed building during exercise)\n\n3. **Review Generator Specifications**\n   - 16kW is the rated output; actual sustainable load should be ~80% = 12.8kW\n   - Verify what load, if any, is present during alarms\n   - Check fuel type (propane vs. natural gas) and consumption rate\n\n4. **Physical Inspection**\n   - Clean or replace air filter\n   - Check exhaust pathway for blockages\n   - Verify radiator/cooling fins are free of debris\n   - Confirm adequate ventilation around the unit (minimum 12 inches clearance recommended)\n\n5. **Monitor Temperature Data**\n   - If available, retrieve coolant temperature at alarm time\n   - Check battery state of charge during alarm\n   - Log voltage/frequency stability during exercise cycle\n\n---\n\n## Most Likely Culprits (In Order)\n\n1. **Exercise Cycle Load Not Shed** \u2014 Building is supplying load during exercise (60% probability)\n   - Fix: Disable loads or adjust transfer switch during exercise window\n\n2. **Ambient Temperature Too High + Minor Load** \u2014 Unit is already warm, minor load triggers overheat (20% probability)\n   - Fix: Improve ventilation, relocate unit to cooler location, or schedule exercise during cooler time of day\n\n3. **Maintenance Needed** \u2014 Air filter clogged, fuel degraded, or spark plugs fouled (15% probability)\n   - Fix: Perform preventive maintenance (oil change, filter replacement, fuel stabilizer if propane)\n\n4. **Controller/Sensor Fault** \u2014 Temperature sensor reading high, but engine is not actually overheating (5% probability)\n   - Fix: Replace temperature sensor; run test without load to confirm\n\n---\n\n## Recommended Actions\n\n### Short Term\n- **Immediate:** Stop allowing building load during the 11am Tuesday exercise cycle\n- **Immediate:** Move exercise cycle to 2-3am when ambient temps are lowest and building load is minimal\n- **This week:** Clean air filter and verify fuel quality\n\n### Medium Term\n- Schedule preventive maintenance (oil change, coolant flush, filter replacement)\n- Inspect cooling system for blockages\n- Verify transfer switch operation during non-load exercise cycle\n- Check controller calibration with a technician if alarms persist\n\n### Long Term\n- Consider upgrading to a 20-25kW unit if building load is legitimately high during exercise\n- Install load monitoring on the generator to log actual amperage during exercise windows\n- Review and document all automatic loads that activate during exercise hours\n\n---\n\n## Expected Outcome\n\nOnce building load is removed from the exercise cycle, the alarms should **disappear completely**. If codes persist after eliminating load, the issue is environmental (cooling/ventilation) or mechanical (maintenance-related), requiring physical inspection.\n\nThe predictable Tuesday 11am pattern strongly indicates this is a scheduled event (exercise cycle) coinciding with load activation\u2014not a unit failure\u2014and is easily correctable through operational changes.\n\n---\n\n## Next Steps for Customer\n\n1. Confirm exercise cycle is set to NO LOAD mode\n2. Disable building loads during exercise window (or move exercise to off-peak hours)\n3. Perform basic maintenance (air filter, fuel check)\n4. Run one cycle without load; if no alarms, issue is resolved\n5. If alarms persist, schedule technician to check cooling system and temperature sensor\n"}], "grading": {"eval_id": 3, "run_type": "without_skill", "expectations": [{"text": "Identifies the weekly Tuesday pattern as exercise-cycle related, not a unit failure", "passed": true, "evidence": "Line 112: 'The predictable Tuesday 11am pattern strongly indicates this is a scheduled event (exercise cycle) coinciding with load activation\u2014not a unit failure'"}, {"text": "Explains that 2100 + 1400 together means sustained overload causing overheating", "passed": true, "evidence": "Lines 8-9: 'electrical load issue that causes the unit to work harder than designed, generating excess heat' and line 16: 'A 16kW unit operating at sustained >80% load will overheat'"}, {"text": "Provides the 16kW amperage rating (66.7A per leg) for load comparison", "passed": false, "evidence": "No amperage-per-leg rating provided. Only mentions '16kW' and '80% = 12.8kW' in kW terms, not amps. A tech needs amps to read their clamp meter."}, {"text": "Mentions SACM or SMM load management as a solution", "passed": false, "evidence": "No mention of SACM or SMM. References 'automatic load shedding' generically but doesn't name the Generac-specific systems."}, {"text": "Recommends scheduling a visit during the exercise time to capture load readings", "passed": false, "evidence": "No specific recommendation to visit during the exercise cycle. Says 'schedule technician to check' generically but doesn't time it to Tuesday 11am."}]}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"skill_name": "generac-alarm-diagnosis", "iteration": 1, "timestamp": "2026-04-17T19:45:00Z", "configurations": [{"name": "with_skill", "evals": [{"eval_name": "wiring-and-fuel-dual-code", "pass_rate": 1.0, "passed": 6, "total": 6, "tokens": 49339, "duration_seconds": 57.7}, {"eval_name": "overcrank-low-oil-correlation", "pass_rate": 0.8, "passed": 4, "total": 5, "tokens": 46047, "duration_seconds": 41.9}, {"eval_name": "weekly-exercise-overload", "pass_rate": 1.0, "passed": 5, "total": 5, "tokens": 49118, "duration_seconds": 46.8}], "aggregate": {"mean_pass_rate": 0.9375, "total_passed": 15, "total_assertions": 16, "mean_tokens": 48168, "mean_duration_seconds": 48.8}}, {"name": "without_skill", "evals": [{"eval_name": "wiring-and-fuel-dual-code", "pass_rate": 0.167, "passed": 1, "total": 6, "tokens": 37694, "duration_seconds": 21.7}, {"eval_name": "overcrank-low-oil-correlation", "pass_rate": 0.4, "passed": 2, "total": 5, "tokens": 38163, "duration_seconds": 30.5}, {"eval_name": "weekly-exercise-overload", "pass_rate": 0.4, "passed": 2, "total": 5, "tokens": 37572, "duration_seconds": 26.1}], "aggregate": {"mean_pass_rate": 0.3125, "total_passed": 5, "total_assertions": 16, "mean_tokens": 37810, "mean_duration_seconds": 26.1}}], "delta": {"pass_rate_improvement": 0.625, "tokens_increase": 10358, "duration_increase_seconds": 22.7}, "analyst_notes": ["With-skill pass rate 93.75% vs without-skill 31.25% \u2014 a 3x improvement in Generac-specific accuracy.", "The skill's biggest wins: Wire 194/23 specificity, Appendix B Table 8 procedures, controller type identification, IASD escalation number, correct oil specs (5W-20 vs wrong SAE 30), SACM/SMM load management references, and amp-per-leg ratings.", "Without-skill baseline recommended wrong oil type (SAE 30 instead of 5W-20) \u2014 this would damage a Guardian engine. The skill prevents this safety-critical error.", "The one miss on with-skill (eval 2 \u2014 no alarm clear procedure) is a gap in the SKILL.md output template. The reference data has the clear procedure but the skill didn't prompt the agent to include it in every diagnosis.", "Token cost increase (~27%) and time increase (~87%) are acceptable for the accuracy gain, especially since wrong oil specs or missing wiring tests have real-world cost implications.", "All assertions are discriminating \u2014 none passed in both configurations universally, confirming they test skill-specific knowledge rather than general LLM capability."]}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

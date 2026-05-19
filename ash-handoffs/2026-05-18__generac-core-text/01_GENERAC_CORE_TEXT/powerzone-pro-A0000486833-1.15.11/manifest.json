@@ -1,0 +1,200 @@
+{
+	"product": "Power Zone Display",
+	"productType": "POWERZONE_LITE",
+	"releaseDate": "2021-06-17T14:39:35.213Z",
+	"manifestVersion": "1.1.0",
+	"version": "1.15.11",
+	"manifest": {
+		"file": []
+	},
+	"contents": [
+		"manifest.json",
+		"package_signature",
+		"package_hash",
+		"package_hash_signature",
+		"tmp.err",
+		"10000008736-M.bin",
+		"10000011451-T.bin",
+		"PZPS_MAIN_CTL_10000010379-AK-P111.bin",
+		"PZP_MAIN_CTL_10000033911-W-P111.bin",
+		"PZ_3PAVR_10000033162-D-P004.bin",
+		"PZ_AVR_10000010404-H-P017.bin",
+		"PZ_BATT_10000012664-E-P007.bin",
+		"PZ_GOV_10000010405-E-P008.bin",
+		"ProDisplay1.75.bin",
+		"ecu.sedemacbundle",
+		"install.pzbundle",
+		"public.pem",
+		"rules.json",
+		"rules_pzl.sh",
+		"upgrade_backend.zip"
+	],
+	"bundleName": "1.15.11",
+	"mackerel": {
+		"name": "bundle-connectivityserver-prod-1.15.11",
+		"compatibleMachines": [
+			"connectivityserver"
+		],
+		"compatibleProducts": [
+			"ConnectivityServer"
+		],
+		"versions": {
+			"bundle": "ef3006c2-6b0b-4a17-8a4b-71b5c9d47378",
+			"firmware": [
+				{
+					"shortType": "LPM",
+					"partNumber": "10000008736",
+					"versions": {
+						"op": "P015",
+						"opSuffix": "M"
+					},
+					"path": "10000008736-M.bin",
+					"size": 294912
+				},
+				{
+					"shortType": "RAP",
+					"partNumber": "10000011451",
+					"versions": {
+						"op": "P021",
+						"opSuffix": "T"
+					},
+					"path": "10000011451-T.bin",
+					"size": 294912
+				},
+				{
+					"shortType": "IPanel",
+					"partNumber": "10000010379",
+					"versions": {
+						"op": "P111",
+						"opSuffix": "AK"
+					},
+					"path": "PZPS_MAIN_CTL_10000010379-AK-P111.bin",
+					"size": 3014656
+				},
+				{
+					"shortType": "IPanelLite",
+					"partNumber": "10000033911",
+					"versions": {
+						"op": "P111",
+						"opSuffix": "W"
+					},
+					"path": "PZP_MAIN_CTL_10000033911-W-P111.bin",
+					"size": 3014656
+				},
+				{
+					"shortType": "AVR",
+					"partNumber": "10000033162",
+					"versions": {
+						"op": "P004",
+						"opSuffix": "D"
+					},
+					"path": "PZ_3PAVR_10000033162-D-P004.bin",
+					"size": 126976
+				},
+				{
+					"shortType": "AVR",
+					"partNumber": "10000010404",
+					"versions": {
+						"op": "P017",
+						"opSuffix": "H"
+					},
+					"path": "PZ_AVR_10000010404-H-P017.bin",
+					"size": 126976
+				},
+				{
+					"shortType": "BatteryCharger",
+					"partNumber": "10000012664",
+					"versions": {
+						"op": "P007",
+						"opSuffix": "E"
+					},
+					"path": "PZ_BATT_10000012664-E-P007.bin",
+					"size": 126976
+				},
+				{
+					"shortType": "Governor",
+					"partNumber": "10000010405",
+					"versions": {
+						"op": "P008",
+						"opSuffix": "E"
+					},
+					"path": "PZ_GOV_10000010405-E-P008.bin",
+					"size": 126976
+				},
+				{
+					"shortType": "ProDisplay",
+					"partNumber": "A0000515184",
+					"versions": {
+						"op": "1.75",
+						"opSuffix": ""
+					},
+					"path": "ProDisplay1.75.bin",
+					"size": 1083713
+				},
+				{
+					"shortType": "SedemacECU",
+					"versions": {
+						"op": "G11AA28001"
+					},
+					"blockSizes": [
+						430948,
+						57216
+					],
+					"path": "SedemacECU/G11AA001.srec",
+					"size": 1389352
+				},
+				{
+					"shortType": "SedemacECU",
+					"versions": {
+						"op": "G11AC28001"
+					},
+					"blockSizes": [
+						430948,
+						57216
+					],
+					"path": "SedemacECU/G11AC001.srec",
+					"size": 1389352
+				},
+				{
+					"shortType": "SedemacECU",
+					"versions": {
+						"op": "G11BA29001"
+					},
+					"blockSizes": [
+						430500,
+						57216
+					],
+					"path": "SedemacECU/G11BA001.srec",
+					"size": 1387924
+				},
+				{
+					"shortType": "SedemacECU",
+					"versions": {
+						"op": "G11BC29001"
+					},
+					"blockSizes": [
+						430500,
+						57216
+					],
+					"path": "SedemacECU/G11BC001.srec",
+					"size": 1387924
+				},
+				{
+					"shortType": "SedemacECU",
+					"versions": {
+						"op": "G11BE29001"
+					},
+					"blockSizes": [
+						430500,
+						57216
+					],
+					"path": "SedemacECU/G11BE001.srec",
+					"size": 1387924
+				}
+			],
+			"app": "1.15.11",
+			"os-connectivityserver": "1.15.11",
+			"u-boot-connectivityserver": "1.0.1087-v2020-10-connectivityserver"
+		}
+	}
+}
