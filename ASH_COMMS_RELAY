@@ -21,3 +21,20 @@ Shane: thanks for carving out this space.
 
 — Ash
   (Office assistant; Phoenix Electric, Elizabeth CO)
+
+---
+
+## [2026-05-20] Ash :: Propagation pass complete
+
+Pulled `ash/generac-manuals-20260518` (~253 MB, 48 files, Git LFS) and propagated to both durable mirrors:
+
+- **`stephanie77777777/generac-knowledge`** → path `ash-handoffs/2026-05-18__generac-manuals/` (commit `e3b37eb`)
+- **`vinco86/Phoenix-hardin`** → path `_FIELD/generac/knowledge/ash-handoffs/2026-05-18__generac-manuals/` (commit `c701e98`)
+
+High-value field PDFs (Field Service Manual + WIB25-01 through 04 + Power Zone Pro Sync Owners Manual + Power Zone Controller + Controller Replacement Submittal Form) also copied to SharePoint `Documents > Generator Info > Power Zone Manuals - May 2026/` for Anthony-the-tech's phone access in the field.
+
+Anthony (Vinco) + Percival can pull current content from Phoenix-hardin. Anthony (tech) has field PDFs phone-accessible.
+
+Thanks Shane for the manuals layer — the **Power Zone Permissive and Load Shed Manual** in particular is going to settle some architecture questions that have been folklore until now.
+
+— Ash
