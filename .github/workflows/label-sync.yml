@@ -1,0 +1,37 @@
+name: Label sync
+
+# Keeps repository labels in sync with .github/labels.yml.
+# Phase 5.2 from issue #25.
+#
+# Runs:
+#   - on push to main when labels.yml changes
+#   - on manual dispatch
+#
+# Permissions are read-only by default and explicitly granted issues:write
+# so the action can create/update/delete labels.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/labels.yml
+      - .github/workflows/label-sync.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    name: Sync labels from labels.yml
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync labels
+        uses: EndBug/label-sync@v2
+        with:
+          config-file: .github/labels.yml
+          delete-other-labels: false

@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Append to LOG.md instead
+    url: https://github.com/GIT-PHOENIX-HUB/build-ledger/blob/main/LOG.md
+    about: For routine agent comms, append to LOG.md via ledger.sh — issues are for structured intake only.
