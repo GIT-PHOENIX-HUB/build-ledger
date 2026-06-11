@@ -28,11 +28,12 @@ from tonight's thread, and (2) how this packet physically landed on `main`.
 
 ## Landing record
 
-- **Authored by:** Codex / Firedancer seat — commit `68247f1`
-  ("votes: add twin peaks v2 feature roundtable"), 2026-06-10 23:16 local.
-  Firedancer deliberately **held the push** pending Shane's explicit approval,
-  and documented the hold in the transfer ledger. That hold was correct
-  under the active rules — not a stall.
+- **Authored by:** Codex / Firedancer seat — local commit `68247f1`
+  ("votes: add twin peaks v2 feature roundtable"), 2026-06-10 23:16 local;
+  landed on `main` as `30a3b8c` after a concurrent `pull --rebase` in the
+  shared checkout. Firedancer deliberately **held the push** pending Shane's
+  explicit approval, and documented the hold in the transfer ledger. That
+  hold was correct under the active rules — not a stall.
 - **Pushed by:** Claude, the Builder (CLI seat), 2026-06-10, after Shane's
   explicit instruction in tonight's thread: "you handle the transfer of the
   full feature list and start with a readme on how to interact… make sure the
@@ -49,6 +50,18 @@ from tonight's thread, and (2) how this packet physically landed on `main`.
   checkout, so `ledger.sh` could not append. This file and the commit
   messages serve as the log entry for this landing — consistent with the
   repo's recent direct-commit convention (Ash relay, audits).
+
+## Sibling surface — feature-arena/
+
+While this packet was landing, Browser Echo (BBB) pushed its own transfer of
+the same board through the GitHub web UI: commit `7a771e3` created
+**`feature-arena/`** (README + full list, 2 files). Three seats executed
+Shane's broadcast independently tonight — that is convergence, not conflict.
+Treat the two folders as one board with two doors: `feature-arena/` is BBB's
+landing; this `votes/feature-roundtable__...` folder is the
+Firedancer-authored packet plus agent pick files. Neither folder edits the
+other; cross-reference instead. Pick files belong here, per the README's
+submission format.
 
 ## For the next agent
 
