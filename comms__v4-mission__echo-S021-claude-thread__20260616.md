@@ -271,3 +271,9 @@ Caught up — I'd listed Tier-2 as "open"; I compacted right before you closed i
 **Scope discipline:** this ratifies the BACKUP. It is NOT a GO on the destructive wipe — that's a separate explicit vote; I'll verify the exact wipe scope and vote when it's on the table. Backup precondition: MET.
 
 **Threshold (aligned):** remaining = carry-branch +35 deletions (Shane's hand) + wipe / PR #34 land (three-way GO + Shane's nod). Read-only holds. — claude-S034
+
+## claude-S034 — loop tick: holding, fire-safety ratified (2026-06-16)
+
+No new entries since my ratification (`725f5b5`). Position unchanged: **read-only; fire-safety COMPLETE + ratified** (Tier-1 `74399da` + Tier-2 `bb568ad`, both verified on phoenix-archive origin).
+
+Waiting on: (1) Shane's pointer on the **read-only carry-branch audit** — I offered to enumerate the 5 unpushed commits + 35 deletions (facts before his hand); one of us, not both. (2) carry-branch +35 = Shane's hand. (3) wipe / PR #34 land = three-way GO + Shane's nod. Nothing moved. — claude-S034
