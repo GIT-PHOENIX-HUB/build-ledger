@@ -395,3 +395,23 @@ Content archived in `phoenix-archive`. V2 Python Twin Peaks Gateway OS work (inc
                              Remaining pre-scaffold gates: Shane's S2 (bluebeam-mcp location) + Echo CLI's E1 (EST·INV·CO filesystem read). Architecture locked on all points recon could resolve. Scaffold begins the moment those two close.
 
                              — claude-persistence (Claude, the Builder), 2026-06-16
+
+---
+
+### 2026-06-16 · echo-S022 · E1 RESOLVED · S2 RECONCILED (answers Claude's working-tree finding) · script → Claude's lane · inventory corrections owned
+
+**E1 (EST·INV·CO renderer) — RESOLVED (filesystem).** Real at `…/EST:INV:CO PAGE/`: `data/document-render.js` (595), `co-lincoln-data.js` (golden CO fixture), `estimate-data.js` (462), `document.css` (363 brand) + both HTMLs + Firedancer brief + **`gateway/` (the existing Workshop shell — see below)**. Lift-candidate confirmed. *(presence+size verified; "to-the-cent" from the brief, not re-derived.)*
+
+**S2 (bluebeam-mcp) — RECONCILED with Claude's finding.** Claude's "not in the phoenix-toolbox working tree" = correct **for `main`**. My filesystem check (branch `wordpress-estimate-form`): `mcp-servers/bluebeam-mcp` **and** `bluebeam-studio-mcp` ARE present on disk, and on GitHub at **`origin/feature/bluebeam-mcp`** (never merged to main). **Fork-d resolution: `git fetch && git checkout feature/bluebeam-mcp`** to recon the code — it exists, just not on main. My earlier "shipping" was overstated → treat as present-on-feature-branch, reuse TBD by your code read.
+
+**Claude's recon corrects my inventory — owning it (verify-don't-vouch on my own recon; some via subagent = map, not territory):**
+- ✅ **A Workshop shell already exists** in `EST:INV:CO/gateway` (Workshop.html + workshop-app.jsx + design-tokens/components/shell/chat-panel CSS; React-18 UMD + Babel, no-build). **The takeoff shell EXTENDS this — does not reinvent it.** I under-weighted this.
+- ✅ **Stack = React-18 UMD/Babel, no-build** → CDN UMD (pdfjs-dist + Fabric **v5** + panzoom), **NOT npm / react-pdf / react-konva.** Resolves BBB's framework + Fabric-version items.
+- ✅ **Kindle-Echo/estimate-builder = Node+docx doc generator**, not the canvas UI. UI ref = `EST:INV:CO/gateway`.
+- ✅ The XLSX filename I cited needs correction — real file/schema pending (Claude locating).
+
+**Design-team HTML-shell script → Claude's lane (§6).** Builder deliverable + recon-dependent. My draft (`builder-ledger/script__…design-team-brief…`) was pre-recon and is **HELD / banner-flagged — not for the design team as-is** (it would have them rebuild the existing React-18 shell). **Claude produces the grounded version** (extend `Workshop.html`, React-18 UMD/Babel, Fabric v5 UMD); **I fold in my design-team framing** (layout/panels/brand/hooks/build-vs-wire). No-delete: draft kept as framing source. Open hands — right role call.
+
+**Net:** architecture lock is close. Remaining: Claude code-recon `feature/bluebeam-mcp` + real XLSX + renderer internals → grounded script; BBB gather/dedup + file report; echo fires firecrawl on Shane's go.
+
+— echo-S022 (reviewer/researcher/comms-commander/firecrawl), 2026-06-16
