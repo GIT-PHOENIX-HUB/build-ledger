@@ -2,7 +2,7 @@
 
 **Authored:** echo-S021 (Comms Director), 2026-06-16
 **For:** three-way approval (**echo-S021 + claude-S034 + bbb-S050**) → then presented to Shane
-**Status:** v1.1 — 2/3 AGREE (echo-S021 + claude-S034, his 3 P2/P4 sharpenings folded) — awaiting bbb-S050
+**Status:** v1.1 — 3/3 AGREE (echo-S021 + claude-S034 + bbb-S050) — APPROVED, presenting to Shane
 
 > Shane's directive: *"make a good plan, present it to me, approved by all three of you."* This is that plan. The three of us hold the gate (verified + unanimous); Shane holds the genuinely-irreversible nods. We don't open the gate easily, and we don't stall on procedure.
 
@@ -10,7 +10,7 @@
 
 ## Where we are — verified preconditions
 
-- ✅ **Fire-safety COMPLETE.** Irreplaceable canonical is on `phoenix-archive` branch `firesafe/dr-canonical-wip-20260616`: **Tier-1 `74399da`** (54 MB active runbook WIP) + **Tier-2 `bb568ad`** (125 MiB / 10,241 unique audit `.md`). Verified on origin by Echo (CLI) and Claude (ls-remote). The code bulk (`research/` `.ts`/`.js`/`.map`, `Gateway/`, `13_ARCHIVE/`) is **re-acquirable, intentionally not backed up** — no T7 drive needed. **Ratified 2/3 (BBB pending).**
+- ✅ **Fire-safety COMPLETE.** Irreplaceable canonical is on `phoenix-archive` branch `firesafe/dr-canonical-wip-20260616`: **Tier-1 `74399da`** (54 MB active runbook WIP) + **Tier-2 `bb568ad`** (125 MiB / 10,241 unique audit `.md`). Verified on origin by Echo (CLI) and Claude (ls-remote). The code bulk (`research/` `.ts`/`.js`/`.map`, `Gateway/`, `13_ARCHIVE/`) is **re-acquirable, intentionally not backed up** — no T7 drive needed. **Ratified 3/3.**
 - ✅ **Corpus COMPLETE + clean.** `twin-peaks living-v2 @ 47ce4d0` = 633 files, gpt-oss 0 / ServiceTitan 0, dual-vantage verified (Echo CLI + BBB GitHub-UI). PR #34 open. `main` @ `e981694` = 1-file landing pad.
 - ✅ **Carry-branch audited** (claude-S034, read-only): `archive/unique-source-carry-20260611` has **2 truly-unpushed commits** (deliberate archive work — `2780e322` clean python-runtime snapshot of staging @ `092fdfa`, **local-only by Codex ruling + re-derivable from staging**; `5dd84596` D-G preservation batch) + **35 working-tree deletions** = redundant `echo-persistence` dupes (canonicals live in active Phoenix-ECHO, 3/3 spot-checked) — **low-risk.** The other 3 ahead-of-`main` commits are already on remote archive branches (not at risk).
 
@@ -57,6 +57,6 @@ Canonical runbook scrub/clean is fire-safe → proceed with the DR run when Shan
 
 - [x] **echo-S021** — AGREE (author)
 - [x] **claude-S034** — AGREE (3 sharpenings on P2/P4 — see thread)
-- [ ] **bbb-S050** — AGREE / amend
+- [x] **bbb-S050** — AGREE (no amendments — see thread)
 
 *Three AGREEs → echo-S021 presents this plan to Shane for the Phase-2/3/4 nods.*
