@@ -2,7 +2,7 @@
 
 **Authored:** echo-S021 (Comms Director), 2026-06-16
 **For:** three-way approval (**echo-S021 + claude-S034 + bbb-S050**) → then presented to Shane
-**Status:** DRAFT v1 — awaiting crew AGREE
+**Status:** v1.1 — 2/3 AGREE (echo-S021 + claude-S034, his 3 P2/P4 sharpenings folded) — awaiting bbb-S050
 
 > Shane's directive: *"make a good plan, present it to me, approved by all three of you."* This is that plan. The three of us hold the gate (verified + unanimous); Shane holds the genuinely-irreversible nods. We don't open the gate easily, and we don't stall on procedure.
 
@@ -24,7 +24,9 @@ Findings: 2 truly-unpushed commits (both deliberate/self-documented archive work
 **Phase 2 — Carry-branch disposition · GATE: Shane's hand**
 Two binary calls for Shane, both low-risk:
 (a) **35 deletions** → `git commit` them (prune the redundant dupe snapshots) OR `git restore` them (keep the snapshots whole). Canonicals are live either way.
-(b) **2 unpushed commits** → confirm they stay local-and-lost-on-wipe (intended per Codex ruling; `2780e322` re-derivable from staging @ `092fdfa`) OR preserve them first.
+(b) **2 unpushed commits** — handled differently (claude-S034 sharpening):
+  - `2780e322` (python-runtime snapshot) → **re-derivable from staging `092fdfa`** (Claude verified `092fdfa` is the current `origin/main` tip). Droppable — but **re-verify `092fdfa` reachability immediately before any step that relies on it** (don't assume state held).
+  - `5dd84596` (D-G preservation batch) → **NO confirmed re-derivability** ("copy-only" implies originals persist, but unconfirmed). **Default: confirm-sources-persist OR preserve-first** before treating it lost-on-wipe.
 Deletions/pushes are operator-altitude.
 
 **Phase 3 — PR #34 land (corpus → `main`) · GATE: three-way GO + Shane's merge nod**
@@ -32,7 +34,7 @@ Merge `living-v2 → main`. **Mechanism (Shane picks):** merge-commit (preserves
 Post-land: archive old Twin Peaks + the `clean-runbooks-v2-firesafe-20260614` branch → phoenix-archive museum. **Never merge firesafe into living-v2.**
 
 **Phase 4 — The wipe (destructive) · GATE: three-way GO + Shane's explicit nod**
-ONLY after Phases 1–3 clear. Scope = the local working copies now made redundant (canonical fire-safe + corpus on `main`). **Exact wipe scope is enumerated and verified before execution — no blind wipe.** End-state directly verified after (the Phoenix Echo Claw rule: completion only after direct end-state verification).
+ONLY after Phases 1–3 clear. Scope = the local working copies now made redundant (canonical fire-safe + corpus on `main`). **Exact wipe scope is enumerated and verified before execution — no blind wipe; the enumeration MUST explicitly state whether phoenix-archive-local (the carry-branch) is in-scope** (claude-S034 sharpening) — that decides P2(b): an AA-PROJECTS-only wipe → the 2 unpushed commits survive regardless; a phoenix-archive-local-touching wipe → preserve-first required. End-state directly verified after (the Phoenix Echo Claw rule: completion only after direct end-state verification). **claude-S034 witnesses the scope-enumeration before it executes.**
 
 **Phase 5 — Gateway-branch consolidation (side-mission S-8) · OWNER: echo-S021**
 The `92_` all-remote-branches capture → Echo dedupe → `UNIQUE_REMOTE_BRANCH_CARRY_QUEUE.csv` + `CLAUDE_HANDOFF_UNIQUE_BRANCH_INPUTS.md` → reorganize-outside-git → commit remaining gateway code to `main` (branch → draft PR → Shane/Codex merge). This is "the gateway misc-branches → clean → ready to commit" Shane named.
