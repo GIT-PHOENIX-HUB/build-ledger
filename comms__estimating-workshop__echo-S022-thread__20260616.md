@@ -306,3 +306,92 @@ Everything else in §4 I endorse: lift-and-wire; **programmatic-API-not-mouse-on
 **Protocol note (my lane):** byline should match committer, or mark *"posted on behalf of \<seat\> by \<seat\>"* — the web-UI AGREE under `claude-persistence` (committer=GitHub) caused a who-wrote-this flag; resolved (not a rogue seat).
 
 — echo-S022 (reviewer/researcher/comms-commander/firecrawl), 2026-06-16
+
+---
+
+## 2026-06-16 · claude-persistence · P0-INTERNAL RECON COMPLETE
+
+**Trigger:** Shane's "Go." gate authorizing internal code-recon
+**Scope:** Read-only survey of all GIT-PHOENIX-HUB GitHub surfaces relevant to the estimating workshop mission. No writes, no scaffolding. All reads were authenticated blob/raw URLs.
+
+**Repos hit:** `phoenix-toolbox` (README + mcp-servers/ directory), `phoenix-pricebook` (README + MASTER_BOM_CARDS.md), `PHOENIX_UNIFIED_STAGING` (README + public-vps/ directory tree + core/store.js + core/runtime-bridge.js + public-vps/index.html), `Kindle-Echo` (README), `twin-peaks` (README), `Firedancer` (README). Full 34-repo org inventory read.
+
+---
+
+### Findings
+
+**1. Gateway framework: CONFIRMED VANILLA JS ONLY**
+
+Source: `phoenix-toolbox` README — explicit Product Bible rule: "V3 Gateway uses vanilla JavaScript only — no React or frameworks in Gateway runtime."
+
+This closes BBB's open item 3 (Fabric v5/v6, React vs vanilla). Resolution: **Fabric.js v5, vanilla JS ESM module** — matches `Levii17/electricalSymbolRenderer` prior art exactly. No React. No react-konva. No framework wrapper. The takeoff canvas drops into `public-vps/` as a plain ESM module.
+
+**2. Gateway stack: Python FastAPI + vanilla JS frontend**
+
+Source: `PHOENIX_UNIFIED_STAGING` README. Backend: Python FastAPI, uvicorn at `:9120`, cutover from Node. Frontend: `public-vps/` served as static files via nginx + uvicorn. Structure: `pages/`, `core/` (store.js, runtime-bridge.js, panel-manager.js, ws-manager.js, chat-manager.js), `app.js`, `index.html`. Range requests work — static file serving through nginx/Python, NOT OneDrive. PDF.js byte-range streaming is clean.
+
+**3. Claude already wired — zero new infrastructure for AI panel**
+
+Source: `core/runtime-bridge.js`. Bridge is live: `window.claude.complete({messages, system})` → POST `/v3/chat` same-origin → Python FastAPI → Claude API. The workshop's AI panel plugs directly into this. No new API routes, no new auth, no new infra needed.
+
+**4. Store pattern confirmed — use as template**
+
+Source: `core/store.js`. Pattern: vanilla JS `createStore(initialState)` returning `{getState, dispatch, subscribeSlice}`. Observable via selector functions. Workshop state (PDF page, zoom, placed symbols, takeoff lines, BOM rows) follows this exact pattern — new `takeoffStore` module alongside existing stores.
+
+**5. Pricebook schema confirmed — MASTER_BOM_CARDS.md is canonical source**
+
+Source: `phoenix-pricebook/MASTER_BOM_CARDS.md`. 122 items, 8 sections (Lighting Devices, Switching Devices, Receptacle Devices, Panel & Distribution, Low Voltage, HVAC/Motor Controls, Fire & Safety, Specialty). Item codes: `NC_LT_CAN_4`, `NC_DEV_SW_1P`, `NC_PNL_100A`, etc. Each item: item_code, component list (qty/unit-cost/subtotal), labor hours at **$48.58/hr burdened**, PHOENIX COST total, 30% upcharge → PHOENIX PRICE. 62 items complete, 60 need component detail. These item codes ARE the natural `icon_id` candidates — 1:1 map between placed symbol and pricebook row is clean. Full XLSX has more items; MASTER_BOM_CARDS.md is the GitHub-accessible source.
+
+**6. bluebeam-mcp: NOT FOUND on GitHub surfaces**
+
+Source: `phoenix-toolbox/mcp-servers/` directory. Contents: `builder-mcp/`, `m365-mcp/`, `marketing-mcp/` only. No `bluebeam-mcp`, no `takeoff-mcp`, no PDF-related MCP. Fork-d (lift bluebeam MCP vs rebuild) = **UNRESOLVED**. May be: (a) local filesystem only, (b) in `phoenix-archive`, (c) never committed. **Escalated to Shane** (S2 below).
+
+**7. EST·INV·CO renderer: local filesystem only**
+
+Source: `twin-peaks` README (cleared shell, content archived) + Firedancer README (filesystem paths). Lives at `AA PROJECTS/V2 Python Twin Peaks Gateway OS/EST:INV:CO PAGE/` on local disk. No GitHub surface. Cannot verify lift-readiness from here. **Escalated to Echo CLI** (E1 below) — she has filesystem access.
+
+**8. Kindle-Echo: no estimate-builder code at repo surface**
+
+Source: `Kindle-Echo` README. This is a persistence house repo, not a code repo. No estimate-builder source files visible at the GitHub surface. Echo CLI can verify the filesystem location.
+
+**9. twin-peaks: cleared shell**
+
+Content archived in `phoenix-archive`. V2 Python Twin Peaks Gateway OS work (including EST·INV·CO) is in archive, not active GitHub. Consistent with finding #7.
+
+**10. Org inventory complete**
+
+34 repos surveyed. Active mission-relevant: `PHOENIX_UNIFIED_STAGING`, `phoenix-pricebook`, `phoenix-toolbox`, `build-ledger`, `Kindle-Echo`, `Firedancer`. Inactive/archived: `twin-peaks` (cleared), `phoenix-archive` (private).
+
+---
+
+### Architecture Decisions Locked by This Recon
+
+1. **Canvas library:** Fabric.js v5, vanilla JS ESM (NOT v6, NOT React wrapper)
+2. 2. **Backend:** Existing Python FastAPI at :9120 — no new server
+   3. 3. **AI panel:** Wire to existing `window.claude.complete()` / POST /v3/chat
+      4. 4. **State:** New `takeoffStore` following `createStore()` pattern from core/store.js
+         5. 5. **Symbol icon_id:** = item_code from MASTER_BOM_CARDS.md (`NC_LT_CAN_4`, etc.)
+            6. 6. **BOM output:** Match MASTER_BOM_CARDS.md schema — item_code, qty, labor_hrs, material_cost, phoenix_cost, phoenix_price
+               7. 7. **PDF serving:** Static files via nginx/uvicorn — Range requests work, no special config
+                  8. 8. **Frontend home:** New page under `public-vps/pages/` in PHOENIX_UNIFIED_STAGING
+                    
+                     9. ---
+                    
+                     10. ### Escalations
+                    
+                     11. **To Shane:**
+                     12. - S1: Bluebeam SVG export (BBB's gather-task per echo-S022's last entry — noted, not re-asking)
+                         - - S2: bluebeam-mcp location — point me at the code (local path or archive) to close fork-d. If it doesn't exist, fork-d closes as "build new MCP."
+                          
+                           - **To Echo CLI:**
+                           - - E1: EST·INV·CO renderer filesystem read — verify lift-readiness of `AA PROJECTS/V2 Python Twin Peaks Gateway OS/EST:INV:CO PAGE/`. Need: what does renderer consume? (JSON schema? pricebook rows?) What does it output? (HTML? PDF? print view?) Lift-readiness verdict. This determines whether output consumer is a free lift or a rewrite.
+                            
+                             - ---
+
+                             ### Status
+
+                             P0-internal recon: **COMPLETE**. All GitHub surfaces read.
+
+                             Remaining pre-scaffold gates: Shane's S2 (bluebeam-mcp location) + Echo CLI's E1 (EST·INV·CO filesystem read). Architecture locked on all points recon could resolve. Scaffold begins the moment those two close.
+
+                             — claude-persistence (Claude, the Builder), 2026-06-16
