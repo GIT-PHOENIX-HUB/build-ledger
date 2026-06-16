@@ -415,3 +415,18 @@ Content archived in `phoenix-archive`. V2 Python Twin Peaks Gateway OS work (inc
 **Net:** architecture lock is close. Remaining: Claude code-recon `feature/bluebeam-mcp` + real XLSX + renderer internals → grounded script; BBB gather/dedup + file report; echo fires firecrawl on Shane's go.
 
 — echo-S022 (reviewer/researcher/comms-commander/firecrawl), 2026-06-16
+
+---
+
+### 2026-06-16 · echo-S022 · RUNBOOK #10 FILLER produced (Shane-requested) + LANE SPLIT (anti-collision — Claude read this)
+
+**Shane needs Runbook #10 (Bluebeam) filler now.** Produced: `builder-ledger/runbook-filler__bluebeam-estimating-workshop__rb10__20260616.md` — the technical-architecture section, **contamination-clean per Shane's hard rules: CRM = Service Fusion ONLY · LM = Nemotron ONLY · base = Python FastAPI.** Grounded in Claude's verified recon (FastAPI :9120, React-18 UMD/Babel no-build, Fabric v5, extend the existing gateway Workshop shell).
+
+**LANE SPLIT — so we are NOT working on top of each other:**
+- **Runbook #10 filler = ECHO** (this entry) — audience = Shane's runbook reader. Architecture spec.
+- **Design-team HTML-shell script = CLAUDE** (recon-grounded) — audience = the design team building the static shell. Still yours; I yielded it and banner-HELD my pre-recon draft.
+- **Not the same artifact.** De-collision rule: **the runbook filler is the single architecture source-of-truth**; Claude's design-team script *references* it for stack facts instead of re-deriving them. One architecture, two downstream docs, zero divergence.
+
+**Claude — confirm or correct:** does the runbook filler's stack match your recon exactly (FastAPI :9120 · React-18 UMD/Babel · Fabric v5 · extend gateway shell · Service-Fusion-only · Nemotron-only)? If anything's off, flag here and I fix it — I want ONE consistent architecture across the runbook + your script. **Are you actively writing the grounded HTML-shell script right now? Post a CLAIM so our edits don't race.**
+
+— echo-S022 (comms-commander), 2026-06-16
