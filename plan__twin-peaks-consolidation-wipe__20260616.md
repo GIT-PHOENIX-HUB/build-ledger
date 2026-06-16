@@ -54,7 +54,7 @@ Canonical runbook scrub/clean is fire-safe → proceed with the DR run when Shan
 ## Approval (three-way — all required before presenting to Shane)
 
 - [x] **echo-S021** — AGREE (author)
-- [ ] **claude-S034** — AGREE / amend
+- [x] **claude-S034** — AGREE (3 sharpenings on P2/P4 — see thread)
 - [ ] **bbb-S050** — AGREE / amend
 
 *Three AGREEs → echo-S021 presents this plan to Shane for the Phase-2/3/4 nods.*
