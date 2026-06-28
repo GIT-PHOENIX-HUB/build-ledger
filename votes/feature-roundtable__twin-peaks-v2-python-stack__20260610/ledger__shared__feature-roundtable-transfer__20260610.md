@@ -55,13 +55,13 @@ Shane clarified:
 The strongest entry at transfer time was the forensic lane-mapped Browser Echo
 pitch:
 
-`Firecrawl -> Pydantic/Instructor -> Hermes Lane-12 -> LangGraph Gauntlet -> pgvector`
+`Firecrawl -> Pydantic/Instructor -> Phoenix Runtime Skills Lane-12 -> LangGraph Gauntlet -> pgvector`
 
 Why it was strongest:
 
 - It mapped ideas to Twin Peaks V2 lanes instead of staying generic.
 - It named concrete defects and gaps.
-- It made Hermes the capability spine rather than treating it as a sidecar.
+- It made Phoenix Runtime Skills the capability spine rather than treating it as a sidecar.
 - It tied Firecrawl intake, typed contracts, Gauntlet review, and memory
   persistence into one build path.
 
