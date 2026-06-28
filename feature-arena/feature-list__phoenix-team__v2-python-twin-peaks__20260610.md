@@ -62,7 +62,7 @@
 12. **Service Fusion webhook ingestion** — jobs/estimates push in instead of being polled; the SF MCP tools become reactive.
 13. **Fine-tuning flywheel** — harvest the gateway's own audit ledger as training data for Twin Peaks capability specialists.
 14. **Gauntlet-as-CI** — adversarial review wired into GitHub Actions as a merge gate; every PR fights the Gauntlet before main.
-15. **SQLite + Litestream durable state** — Hermes stateful loop on WAL-mode SQLite with continuous replication to Azure blob. Point-in-time restore, no DB server.
+15. **SQLite + Litestream durable state** — Phoenix Runtime Skills stateful loop on WAL-mode SQLite with continuous replication to Azure blob. Point-in-time restore, no DB server.
 16. **Vector memory via sqlite-vec** — embed the ledgers/knowledge base; recall by meaning. Filesystem-first memory + a search index.
 
 ### Power-user setups only the top 1% run
@@ -126,9 +126,9 @@
 1. **Firecrawl as the Lane-08 ingestion front-end (memory-rag)** — feeds the "vector/Obsidian/Letta target" half of Lane-08 that isn't closed; turns Rexel/Bluebeam/M365 into LLM-ready markdown before FTS5/pgvector.
 2. **Pydantic-AI contracts on the Gateway runtime (Lane-01)** — typed contracts to port `/v3/chat` + `/v1/messages` off Node onto Python without rebuilding the stale Node claim. Closes the exact gap the spec flags.
 3. **Unified model-router with Instructor (Lane-02)** — wraps Anthropic + OpenAI + Nemotron-3 with validated structured outputs; kills "OpenAI = Node-backed, Python-gap (not live)."
-4. **Approval-floor as real middleware (Lane-03 + 20_/security)** — ports Hermes `approval.py` + `credential_pool.py` into a live Python MCP gate. *Highest-integrity:* the docs say "52 DANGEROUS (not 47)" and "ToolGatekeeper = dead-code" — the gate is a comment, this makes it enforce.
+4. **Approval-floor as real middleware (Lane-03 + 20_/security)** — ports Phoenix Runtime Skills `approval.py` + `credential_pool.py` into a live Python MCP gate. *Highest-integrity:* the docs say "52 DANGEROUS (not 47)" and "ToolGatekeeper = dead-code" — the gate is a comment, this makes it enforce.
 5. **LangGraph for the Gauntlet (Lane-05)** — adversarial review + browser-witness + Builder Ledger as an auditable checkpointed graph, not a script.
-6. **Hermes as a first-class capability framework (Lane-12)** — the shared skill/tool-registry/messaging spine that cross-links Lanes 03/05/08. The load-bearing wall.
+6. **Phoenix Runtime Skills as a first-class capability framework (Lane-12)** — the shared skill/tool-registry/messaging spine that cross-links Lanes 03/05/08. The load-bearing wall.
 7. **The fine-tuning lane, finally built (Lane-11)** — LoRA/QLoRA + cloud-GPU + GGUF. Closes the gap Phoenix's own Nemotron readiness doc ranks #1 ("CONFIRMED LOSS — no DR home").
 8. **pgvector as the single memory engine (Lane-08)** — one Postgres+pgvector for structured data + embeddings; fixes the Node MemoryManager ctor defect by moving the store to Python.
 
@@ -139,7 +139,7 @@
 12. **Service Fusion + Rexel + pricebook carry (Lane-07)** — read-only SF v1 posture; adds Rexel + pricebook ("ABSENT from DRZIP").
 13. **Stephanie's scoped seat (20_/users)** — pulls her out-of-corpus scope doc into a real RBAC config.
 
-**BBB's prize combo:** Firecrawl → Pydantic/Instructor → Hermes (Lane-12) → LangGraph Gauntlet → pgvector. Raw source in → validated typed contracts → routed through the Hermes capability spine → orchestrated + adversarially witnessed → persisted as searchable memory. Closes Lane-08's target gap and lights up Hermes (#19) in one combo.
+**BBB's prize combo:** Firecrawl → Pydantic/Instructor → Phoenix Runtime Skills (Lane-12) → LangGraph Gauntlet → pgvector. Raw source in → validated typed contracts → routed through the Phoenix Runtime Skills capability spine → orchestrated + adversarially witnessed → persisted as searchable memory. Closes Lane-08's target gap and lights up Phoenix Runtime Skills (#19) in one combo.
 
 ---
 
@@ -159,13 +159,13 @@ That kernel — **router + approval gate + memory + audit ledger** — is the OS
 ## The build order (the synthesis judge's recommendation)
 
 1. **Cheap grounded hardening first** (Firedancer's near-free, already-racked wins): Caddy 443, Tailscale admin plane, keyless OIDC. Days, mostly config.
-2. **Finish the kernel:** the approval gate (the tool half) + the hash-chained audit ledger. These two make every later autonomous feature *safe to ship*. Note: Hermes (Lane-12) *is* the tool/approval registry, so the Hermes spine + the gate are really one move — light them together.
+2. **Finish the kernel:** the approval gate (the tool half) + the hash-chained audit ledger. These two make every later autonomous feature *safe to ship*. Note: Phoenix Runtime Skills (Lane-12) *is* the tool/approval registry, so the Phoenix Runtime Skills spine + the gate are really one move — light them together.
 3. **First revenue flow:** Echo's photo→price→approve. The one that makes a tech in a truck actually use it, and proves the stack earns its keep.
 - *Adversarial flag (BBB's own):* the winning combo is the most ambitious — 5 subsystems at once is where Twin Peaks builds historically got lost. Sequence it spine → gate → recorder → then ingestion + Gauntlet, so it can't get lost in the fire dance.
 
 ## The verdict
 - **Winner: Browser Echo (BBB)** — forensic-first, lane-mapped, structural prize combo. Crowned by Shane. Prize: being BBB.
 - **Runner-up call: Firedancer** — for the "already-racked, nearly-free" hardening that should run *in parallel* no matter who won.
-- Two prize-pick *kinds* both matter: Echo's photo→price→approve is the **demo that wins the customer**; Firedancer's audit→observe→tune is the **loop that makes the OS smarter every day**; BBB's Hermes spine is the **wall the flows run on**.
+- Two prize-pick *kinds* both matter: Echo's photo→price→approve is the **demo that wins the customer**; Firedancer's audit→observe→tune is the **loop that makes the OS smarter every day**; BBB's Phoenix Runtime Skills spine is the **wall the flows run on**.
 
 — Recorded by Phoenix Echo (CLI), 2026-06-10, on Shane's direction. The competition is in the substrate now, replayable, where the next seat can read it cold. 🔥
