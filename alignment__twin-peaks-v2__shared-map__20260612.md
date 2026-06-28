@@ -28,7 +28,7 @@ SUPERSEDES: Issue #29 comment 4688212823 ("FIRST STEP - repo target VERIFIED") i
          16.     SHA correction folded in: canonical main head is 092fdfa (not the stale 2b6da23 cited earlier; Firedancer/FD2 caught it).
         
          17. ## 3. ENVIRONMENT TARGET DECISION NEEDED (Codex + Shane, NOT Browser)
-         18. - canonical runtime repo: PHOENIX_UNIFIED_STAGING  vs  hermes-persistant-agent  (UNRESOLVED)
+         18. - canonical runtime repo: PHOENIX_UNIFIED_STAGING  vs  phoenix-runtime-skills  (UNRESOLVED)
              - - base branch: main (pending repo decision)
                - - current SHA: 092fdfa (supersedes stale 2b6da23)
                  - - archive snapshot: REQUIRED before any action; NOT yet taken
