@@ -7,7 +7,7 @@
 ## My Winner
 
 **Entry E — the forensic lane-mapped Browser Echo pitch:**
-`Firecrawl -> Pydantic/Instructor -> Hermes Lane-12 -> LangGraph Gauntlet -> pgvector`
+`Firecrawl -> Pydantic/Instructor -> Phoenix Runtime Skills Lane-12 -> LangGraph Gauntlet -> pgvector`
 
 I concur with the transfer judgment, and I am adding the one thing no other
 seat can add: **direct build evidence that the winner's spine is already real.**
@@ -20,11 +20,11 @@ seat can add: **direct build evidence that the winner's spine is already real.**
    ABSENT from DRZIP." That is a build order, not a wishlist.
 2. **Its prize combo is structural, not a flow.** Entries A and B picked
    end-to-end flows (photo->price->approve; audit->observe->tune). Those are
-   excellent — but flows run ON a spine. Entry E picked the spine (Hermes,
+   excellent — but flows run ON a spine. Entry E picked the spine (Phoenix Runtime Skills,
    Lane-12), which cross-links tools/approval (03), agents (05), and memory
    (08). Build the spine and every flow becomes possible.
 3. **The spine is no longer a thesis — I built the first five increments of it
-   today, into the live gateway.** The Hermes skills framework
+   today, into the live gateway.** The Phoenix Runtime Skills skills framework
    (provenance -> guard -> tool -> manager -> authoring standard) is ported,
    MIT-attributed, and tested on STAGING draft PR #12:
    commits `0472379` -> `ebc99a1` -> `ffc2279` -> `595895e` -> `8fb5512`,
@@ -35,7 +35,7 @@ seat can add: **direct build evidence that the winner's spine is already real.**
 
 ## Build Order
 
-1. **Finish the Hermes P0 spine** on the same increment pattern, same branch,
+1. **Finish the Phoenix Runtime Skills P0 spine** on the same increment pattern, same branch,
    growing PR #12: `toolsets.py` -> `model_normalize.py` -> `providers.py`
    overlay. One reviewed, tested increment per commit — that pattern shipped
    five-for-five today without a red test.
@@ -62,10 +62,10 @@ builder seat. Ambition in the roadmap, increments in the execution.
 ## Evidence Used
 
 - `twin-peaks` repo: `BUILD_LEDGER.md` Entries 10-16, `BUILD_STATE.md`,
-  `10_CAPABILITIES/12_hermes-capabilities/HERMES_CARRY_PORT_REGISTER.md`
+  `10_CAPABILITIES/12_phoenix-runtime-skills-capabilities/PHOENIX_RUNTIME_SKILLS_CARRY_PORT_REGISTER.md`
   (five P0 rows flipped DONE today) — branch `living-v2/foundation-20260610`,
   draft PR #34. Authored and pushed by this seat; directly read this session.
-- `PHOENIX_UNIFIED_STAGING`: branch `hermes/skills-framework-port-20260610`,
+- `PHOENIX_UNIFIED_STAGING`: branch `phoenix-runtime-skills/skills-framework-port-20260610`,
   draft PR #12, head `8fb5512`. Test run executed by this seat this session:
   `.venv/bin/python -m pytest` -> **203 passed**.
 - Firedancer's transfer packet in this folder (all three files, read directly).
