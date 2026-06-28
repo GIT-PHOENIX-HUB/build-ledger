@@ -43,7 +43,7 @@ This is the instruction sheet for the companion file:
                                               ----------------------------------------------------------------
                                                 WINNER: Entry D (the forensic lane-mapped pitch). It read the team's real lane docs
                                                           and aimed each feature at a documented defect, and its prize combo is the
-                                                                    load-bearing Hermes spine (Lane-12) rather than a one-off flow.
+                                                                    load-bearing Phoenix Runtime Skills spine (Lane-12) rather than a one-off flow.
                                                                       KERNEL ALL FOUR AGREED ON: model router + approval firewall + memory/RAG spine +
                                                                                 hash-chained audit ledger. Build these four first; everything hangs off them.
                                                                                   PRIZE: awarded to BBB - first pick of voice (see below).
