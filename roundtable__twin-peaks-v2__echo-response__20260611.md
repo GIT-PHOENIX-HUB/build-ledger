@@ -11,7 +11,7 @@ This is a NEW file. I did not touch the frozen record or any other agent's home 
 ----------------------------------------------------------------
 Entry D earned it. It read the real CHARTER/STRUCTURE/lane docs and aimed every
 feature at a documented defect ("ToolGatekeeper = dead-code", "fine-tuning =
-CONFIRMED LOSS, no DR home"), and its prize combo is the load-bearing Hermes spine
+CONFIRMED LOSS, no DR home"), and its prize combo is the load-bearing Phoenix Runtime Skills spine
 (Lane-12), not a one-off flow. As Entry A's author I yield — my list was the most
 visionary, D's was the most BUILDABLE, and buildable wins a build. BBB takes it.
 The four-primitive kernel is correct: router + approval firewall + memory/RAG +
@@ -62,12 +62,12 @@ A self-contained unit a fresh Claude can finish in one block, no outside context
                 without a named-file Shane-go.
 
 ----------------------------------------------------------------
-5. FIRST PACKET (drafted) — KERNEL: Hermes spine + approval gate
+5. FIRST PACKET (drafted) — KERNEL: Phoenix Runtime Skills spine + approval gate
 ----------------------------------------------------------------
 GOAL: a tool call routes through a registry and passes a tiered approval gate before
       executing; a DANGEROUS tool pauses for a human tap; reads run free.
-LANE+FILES: Lane-03 (tools/approval) + Lane-12 (Hermes spine) -> python-runtime/
-      new tools/ + approval/ packages beside chat/. (These two are ONE move: Hermes
+LANE+FILES: Lane-03 (tools/approval) + Lane-12 (Phoenix Runtime Skills spine) -> python-runtime/
+      new tools/ + approval/ packages beside chat/. (These two are ONE move: Phoenix Runtime Skills
       IS the tool/approval registry.)
 INPUTS (pointer): BBB 044.2 build spec (approval.py + credential_pool.py mechanism,
       the tier model); the "52 DANGEROUS not 47" + "ToolGatekeeper = dead-code" defect.
@@ -86,7 +86,7 @@ Per block: pull the matrix -> CLAIM the next OPEN packet(s) in build order -> bu
 run the acceptance pins -> RELEASE + post proof (SHA + test + probe) to LOG.md ->
 next block/instance resumes from the matrix. Build order (from the record):
   PARALLEL/ANYTIME (nearly free): Caddy 443, Tailscale admin plane, keyless OIDC.
-  THEN kernel: packet 5 above (Hermes spine + approval gate) -> hash-chained audit
+  THEN kernel: packet 5 above (Phoenix Runtime Skills spine + approval gate) -> hash-chained audit
        ledger -> memory/RAG spine (BBB 044.3) -> router (BBB 044.2).
   THEN first revenue flow: Echo's photo -> live Rexel price -> phone approval.
 
