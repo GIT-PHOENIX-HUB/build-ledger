@@ -28,7 +28,7 @@ fashion.
 
 The winning combo is the right spine:
 
-Firecrawl -> Pydantic/Instructor -> Hermes Lane-12 -> LangGraph Gauntlet -> pgvector
+Firecrawl -> Pydantic/Instructor -> Phoenix Runtime Skills Lane-12 -> LangGraph Gauntlet -> pgvector
 
 That is not just an ingestion stack. It is a route from outside evidence to
 typed contracts, through the capability spine, into adversarial review, and
@@ -52,8 +52,8 @@ Service Fusion, pricebook, and agent roundtables all become safer once those
 four are real. Without them, the rest can turn into impressive demos with weak
 governance.
 
-My strongest agreement with Entry D is Hermes Lane-12 as a first-class spine.
-Hermes should not be a sidecar, import bucket, or novelty lane. It is where
+My strongest agreement with Entry D is Phoenix Runtime Skills Lane-12 as a first-class spine.
+Phoenix Runtime Skills should not be a sidecar, import bucket, or novelty lane. It is where
 tools, skills, approvals, messaging, and memory meet. If it is not first-class,
 the OS will keep rebuilding the same coordination tissue in five places.
 
@@ -69,7 +69,7 @@ implementation sprint.
 
 Do not start with the whole chain. Start with the smallest enforceable spine:
 
-1. Hermes capability registry plus approval floor.
+1. Phoenix Runtime Skills capability registry plus approval floor.
 2. Hash-chained audit ledger behind the approval floor.
 3. Router policy that writes every routing decision to the audit ledger.
 4. Firecrawl ingestion and LangGraph Gauntlet only after the first three have
@@ -83,7 +83,7 @@ That order keeps the moonshot from outrunning the trust layer.
 
 First three build moves I would defend:
 
-1. Create the Lane-12 Hermes README/spec as a live contract, not a concept doc.
+1. Create the Lane-12 Phoenix Runtime Skills README/spec as a live contract, not a concept doc.
    It should name capability registry, approval gate, memory hooks, and tool
    ownership.
 
