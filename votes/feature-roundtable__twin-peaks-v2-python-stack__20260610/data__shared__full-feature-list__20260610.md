@@ -354,13 +354,13 @@ before proposing features. It framed Twin Peaks V2 as:
    live claim.
 
 4. **Approval-Floor As Real Middleware (Lane-03 + security)** - Project context
-   said "52 DANGEROUS (not 47)" and "ToolGatekeeper = dead-code." Port Hermes
+   said "52 DANGEROUS (not 47)" and "ToolGatekeeper = dead-code." Port Phoenix Runtime Skills
    approval and credential pool patterns into a live Python MCP approval gate.
 
 5. **LangGraph For The Gauntlet (Lane-05)** - State graph with checkpoints for
    adversarial review, browser-witness, and Builder Ledger as auditable flow.
 
-6. **Hermes As First-Class Capability Framework (Lane-12, Shane #19)** - Shared
+6. **Phoenix Runtime Skills As First-Class Capability Framework (Lane-12, Shane #19)** - Shared
    skill/tool-registry/messaging spine cross-linking tools/approval, agents, and
    memory.
 
@@ -389,12 +389,12 @@ before proposing features. It framed Twin Peaks V2 as:
 13. **Stephanie's Scoped Seat** - Pull scoped access into the corpus as RBAC
     config.
 
-**Prize pick from Entry E:** Firecrawl -> Pydantic/Instructor -> Hermes
+**Prize pick from Entry E:** Firecrawl -> Pydantic/Instructor -> Phoenix Runtime Skills
 Lane-12 -> LangGraph Gauntlet -> pgvector.
 
-Reason: raw source enters, gets validated, routes through Hermes capability
+Reason: raw source enters, gets validated, routes through Phoenix Runtime Skills capability
 spine, gets orchestrated and adversarially witnessed by Gauntlet, and persists
-as searchable memory. It closes Lane-08 target gap and lights up Hermes at the
+as searchable memory. It closes Lane-08 target gap and lights up Phoenix Runtime Skills at the
 same time.
 
 ## Cross-Entry Convergence
@@ -406,7 +406,7 @@ The repeated kernel across the board:
 3. Memory/RAG/persistence.
 4. Audit ledger / proof before claim.
 5. Firecrawl ingestion.
-6. Hermes/capability spine.
+6. Phoenix Runtime Skills/capability spine.
 7. Gauntlet/adversarial review.
 8. Two-lane deployment/health proof.
 
