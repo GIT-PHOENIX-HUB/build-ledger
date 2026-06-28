@@ -34,7 +34,7 @@ The full list preserves the feature entries Shane shared in chat:
 4. Python stack proposal: Firecrawl, FastAPI, Pydantic, LangGraph, pgvector,
    and supporting tools.
 5. Forensic lane-mapped Browser Echo pitch: Firecrawl -> Pydantic/Instructor
-   -> Hermes Lane-12 -> LangGraph Gauntlet -> pgvector.
+   -> Phoenix Runtime Skills Lane-12 -> LangGraph Gauntlet -> pgvector.
 
 The point is to keep the board complete. Do not cherry-pick only the idea you
 already like.
@@ -117,14 +117,14 @@ the winner with dissent preserved.
 At transfer time, the strongest judged entry was the forensic lane-mapped
 Browser Echo pitch:
 
-`Firecrawl -> Pydantic/Instructor -> Hermes Lane-12 -> LangGraph Gauntlet -> pgvector`
+`Firecrawl -> Pydantic/Instructor -> Phoenix Runtime Skills Lane-12 -> LangGraph Gauntlet -> pgvector`
 
 Reason: it did not stay generic. It mapped each feature to a real Twin Peaks V2
 lane and named defects or gaps from the project context, especially:
 
 - Tool approval as live middleware rather than dead-code governance.
 - Lane-08 memory/RAG intake plus pgvector target.
-- Lane-12 Hermes as the capability spine.
+- Lane-12 Phoenix Runtime Skills as the capability spine.
 - Gauntlet as auditable stateful orchestration.
 - Fine-tuning Lane-11 as a documented missing home.
 
