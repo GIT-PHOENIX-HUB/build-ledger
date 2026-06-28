@@ -95,7 +95,7 @@ Every Monday, ~5 minutes, $0: diff live `llms.txt` (both doc sites) against stor
 | 5 | Pre-action rule implementation GO (CLAUDE.md block / SessionStart hook / skill) | Shane; Echo builds |
 | 6 | **Per-lane SSH keys** — both VPS lanes currently share ONE key (also the Mac/Studio key); single compromise = whole fleet | Shane; hardening pass |
 | 7 | **TLS/443** (Caddy auto-HTTPS) — both lanes live over plain HTTP today | Shane; maps to parked B8 |
-| 8 | #29 Correction 1 still open: name the canonical gateway repo + base branch in-issue (Echo's 06-10 note points at `hermes-persistant-agent`) — **no Lane A launch until confirmed** | Codex + Shane |
+| 8 | #29 Correction 1 still open: name the canonical gateway repo + base branch in-issue (Echo's 06-10 note points at `phoenix-runtime-skills`) — **no Lane A launch until confirmed** | Codex + Shane |
 
 ---
 
