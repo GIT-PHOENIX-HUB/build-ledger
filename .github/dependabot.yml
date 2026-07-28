@@ -1,0 +1,18 @@
+# Dependabot configuration for build-ledger.
+# Phase 6.1 / 6.2 from issue #25.
+#
+# build-ledger has no application code package manifests, but it does use
+# GitHub Actions (label-sync, etc.), so we keep those pinned actions current.
+
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns:
+          - "*"
+    labels:
+      - "type:governance"

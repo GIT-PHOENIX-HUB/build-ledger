@@ -1,0 +1,81 @@
+# Standard label set for GIT-PHOENIX-HUB repos.
+# Source of truth — synced by .github/workflows/label-sync.yml.
+# Defined in issue #25, Phase 5.1.
+
+# Build phases (from twin-peaks 8-phase plan)
+- name: phase-1
+  color: "0E4D92"
+  description: "Phase 1 — Gateway UI Rebuild"
+- name: phase-2
+  color: "1F6FBF"
+  description: "Phase 2 — Twin Peaks Local Fleet"
+- name: phase-3
+  color: "3083C5"
+  description: "Phase 3 — Service Fusion Integration"
+- name: phase-4
+  color: "4A98D1"
+  description: "Phase 4 — M365 Integration"
+- name: phase-5
+  color: "63ABDC"
+  description: "Phase 5 — RAG Pipeline"
+- name: phase-6
+  color: "7DBEE7"
+  description: "Phase 6 — Security & Auth"
+- name: phase-7
+  color: "97D1F1"
+  description: "Phase 7 — Voice AI"
+- name: phase-8
+  color: "B1E4FB"
+  description: "Phase 8 — Fine-Tuning Pipeline"
+
+# Agent assignment
+- name: "agent:echo"
+  color: "2EA44F"
+  description: "Assigned to Phoenix Echo"
+- name: "agent:bbb"
+  color: "8957E5"
+  description: "Assigned to Browser Echo (BBB)"
+- name: "agent:codex"
+  color: "D97706"
+  description: "Assigned to Codex"
+- name: "agent:shane"
+  color: "F1C40F"
+  description: "Shane decision required"
+
+# Priority
+- name: "priority:critical"
+  color: "B60205"
+  description: "Blocking"
+- name: "priority:high"
+  color: "D93F0B"
+  description: "This sprint"
+- name: "priority:medium"
+  color: "FBCA04"
+  description: "Next sprint"
+
+# Status
+- name: "status:blocked"
+  color: "5C0000"
+  description: "Waiting on external"
+- name: "status:in-review"
+  color: "0366D6"
+  description: "PR open"
+
+# Type
+- name: "type:governance"
+  color: "1D3557"
+  description: "Doctrine / rules change"
+- name: "type:bug"
+  color: "EE0701"
+  description: "Something broken"
+- name: "type:feature"
+  color: "0E8A16"
+  description: "New capability"
+- name: "type:docs"
+  color: "808080"
+  description: "Documentation"
+
+# Lifecycle guard
+- name: "no-delete"
+  color: "000000"
+  description: "Archive only — never close with delete"
