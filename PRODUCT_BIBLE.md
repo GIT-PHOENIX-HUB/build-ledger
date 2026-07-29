@@ -21,6 +21,8 @@ build-ledger is the central coordination ledger for the Phoenix Electric AI infr
 
 This is a pure markdown + shell repo. There is no application, no server, no package.json. The "runtime" is any agent or shell that can run `bash ledger.sh`. The central data surface is `LOG.md` — a single append-only timestamped communication log. All other directories hold structured records (audits, research, mapping, handoffs, decisions, conflicts, approvals) organized by function.
 
+Operational constraint: `LOG.md` must remain a normal committed file (never a machine-local symlink), so all clones share the same coordination surface.
+
 ```
 build-ledger/
 ├── README.md                      # Repo overview and current phase status

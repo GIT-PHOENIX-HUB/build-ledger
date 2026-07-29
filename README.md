@@ -111,6 +111,7 @@ All entries land in `LOG.md` in this format:
 - Every agent logs via `ledger.sh` — no side-channel commits
 - CLAIM a file before touching it: `bash ledger.sh log "NAME" "CLAIM: /path/to/file"`
 - RELEASE when done: `bash ledger.sh log "NAME" "RELEASE: /path/to/file"`
+- `LOG.md` must remain a normal committed file (never a machine-local symlink)
 - Shane posts `STOP ALL` to halt all agent activity immediately
 
 ---
