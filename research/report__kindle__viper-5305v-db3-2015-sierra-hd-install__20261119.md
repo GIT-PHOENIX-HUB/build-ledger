@@ -27,6 +27,8 @@ Nothing works until the DB3 is flashed. The flash is also how you get the **wiri
 
 **Firmware family:** most likely **403.GM10** (Directed's 2014+ GM truck firmware; a GM10 guide lists Silverado/Sierra 2500/3500). [SNIPPET + FORUM t145172] The flash tool picks the exact firmware and install type for your VIN, so accept what it assigns.
 
+**Before the DB3's first power-up:** check the DB3 guide for its **transmission-type setting**. A PR review cites the GM10 guide: the DB3 ships configured for manual transmission, and for an automatic you **cut the yellow loop before first power-up** (or cycle power at the white 12-pin harness after cutting it). Not verified here (manuals.plus blocks scripted reads), so confirm it in your guide before you cut anything.
+
 ---
 
 ## What the DB3 handles on this truck vs. what you hard-wire
@@ -51,6 +53,7 @@ Wire chart for the 2014-2015 K2XX truck (the12volt moderator "wirewise", posted 
 | Factory alarm disarm | Transponder + ignition (handled by the bypass) | — |
 
 - **BCM is under the driver-side dash.** [FORUM t145256, SHEET Kleinn RS-GM5, SHEET Fortin THAR-GM5]
+- **RAP-off (retained accessory power):** a PR review cites the GM10 guide as connecting the DB3 **Light Blue/Black RAP-off output** to the driver-door-sense trigger. Without it, some console lights stay on about 10 minutes after a remote-start session ends. Wire it exactly where your DB3 guide shows (not verified here).
 - **Data bus at the OBD-II port (X84):** pin 1 L-GN = Low Speed GMLAN (single-wire CAN, circuit 5060); **pin 6 D-BU = High Speed GMLAN (+)** (circuit 2500); **pin 14 WH = High Speed GMLAN (−)** (circuit 2501); pins 12/13 = second HS bus; 4/5 = grounds. [OFFICIAL GM, X84] **Make the DB3 data connections exactly as the VIN-specific DB3 guide shows.** A PR review cites Directed's GM10 Type 2 diagram for the 2015–2016 Sierra 2500/3500 as using **all three: SW-CAN pin 1 plus the HS-CAN pair, pins 6/14** (not verified here; manuals.plus blocks scripted reads). Hooking up pin 1 alone may leave the bypass unable to program. Solder wire-on-wire, no T-taps. [SHEET Kleinn RS-GM5]
 - **Ignition switch:** a 6-pin ignition plug at the back of the key cylinder, plus a 3-pin **violet** immobilizer plug. [SHEET Kleinn RS-GM5] **GM's S38 ignition switch pinout:** 1 not used · 2 VT/BK Run/Crank Ignition 1 · 3 VT/YE Accessory · 4 RD/D-BU Battery + · 5 WH/VT Off/Run/Crank · 6 WH/BK Ignition Key Resistor Signal. **There is no starter wire.** Crank is requested through the key-resistor signal. [OFFICIAL GM 2015 Silverado/Sierra Electrical Body Builder's Manual, S38]
 - **Parking brake switch (B80):** a single-wire switch, **D-BU/VT (dark blue/violet), circuit 1134**, at the left side of the passenger compartment (park brake pedal). [OFFICIAL GM, B80] Meter it: it should read ground with the brake set and open with it released. That's what the Viper Black/White input needs through the shutoff switch.
@@ -91,7 +94,7 @@ Meter each one: it should go to ground when its door opens. Feed all four into t
 
 ### Viper ↔ DB3 over D2D [FORUM t144029, the same 5305V + DB3 + D2D pairing on a 2015 GM Savana]
 - With D2D, **the vehicle side follows the DB3 vehicle guide**. Set options on both units. There is no separate "D2D pairing" step.
-- Reference hookup from that build (a van, so your DB3 guide controls the details): 5-pin Black/Brown/Red/White all connected. 10-pin **Pink** to the DB3 ignition output and to the vehicle ignition, with a **1A diode** in one of those branches. **The thread does not give the diode's branch or which end gets the band, and a backward or misplaced diode can block the ignition signal or backfeed one module's 12V into the other. Do not install it until the DB3 vehicle guide shows its exact anode/cathode endpoints.** **Power every 12V input** on the 10-pin (Red, Red/Black, Red/White). 24-pin: **Gray** to the hood pin, **Violet/White** to the DB3 tach out, **Brown/Black** to horn. **Black/White:** the thread grounded it directly (automatic trans). **Don't.** The official guide says to run it **through the supplied Remote Start Shutoff Switch** (one switch lead to Black/White, **the other to the vehicle's (−) parking brake wire**, the B80 D-BU/VT circuit 1134 above). **Not chassis ground**: going through the brake wire is what blocks remote start when the parking brake is off. The switch is how remote start gets disabled for service or garage parking. [OFFICIAL]
+- Reference hookup from that build (a van, so your DB3 guide controls the details): 5-pin Black/Brown/Red/White all connected. 10-pin **Pink** to the DB3 ignition output and to the vehicle ignition, with a **1A diode** in one of those branches. **The thread does not give the diode's branch or which end gets the band, and a backward or misplaced diode can block the ignition signal or backfeed one module's 12V into the other. Do not install it until the DB3 vehicle guide shows its exact anode/cathode endpoints.** **Power every 12V input** on the 10-pin (Red, Red/Black, Red/White). 24-pin: **Gray** to the hood pin, **Violet/White** to the DB3 tach wire (**don't copy this for this truck**; see the tach note in the Duramax section), **Brown/Black** to horn. **Black/White:** the thread grounded it directly (automatic trans). **Don't.** The official guide says to run it **through the supplied Remote Start Shutoff Switch** (one switch lead to Black/White, **the other to the vehicle's (−) parking brake wire**, the B80 D-BU/VT circuit 1134 above). **Not chassis ground**: going through the brake wire is what blocks remote start when the parking brake is off. The switch is how remote start gets disabled for service or garage parking. [OFFICIAL]
 - Even in alarm-only setups, **connect the Pink ign1 wire**. It is also the ignition-trigger input and is used for programming. [FORUM t146767]
 
 ---
@@ -104,7 +107,7 @@ Programming entry: open a door → ignition ON then OFF → hold the control but
 
 | Menu 3 item | Set to | Why |
 |---|---|---|
-| 1 Engine checking | **Tachometer (4)**, via DB3 data tach | "**Virtual Tach is not recommended for diesel vehicles.**" [OFFICIAL] Learn tach: start with the key → within 5 s hold the control button → LED solid = learned. **Parking lights flash 2× = learned from D2D** (1× = analog). |
+| 1 Engine checking | **Tachometer (4)**, using the DB3 data tach **over D2D**. **Leave the Viper Violet/White tach wire unconnected**: the Viper ignores D2D tach whenever its analog tach input is wired [OFFICIAL]. A PR review cites the GM10 guide as saying the DB3's own Violet/White is a tach *input*, with RPM delivered over D2D (not verified here). The Savana thread's wire-to-wire hookup was a different firmware. | "**Virtual Tach is not recommended for diesel vehicles.**" [OFFICIAL] Learn tach: start with the key → within 5 s hold the control button → LED solid = learned. **Parking lights flash 2× = learned from D2D** (1× = analog). |
 | 2 Runtime | 24 min (optional) | Diesel warm-up |
 | 10 Diesel start delay | **Timed 15 (2)** or 30 (3) | Timed mode ignores the WTS wire. An installer tech doc says not to tie into the factory WTS on 2002+ GM diesels [SNIPPET: Car Install Experts TechDoc 3637]. At 0 °F owners report 10–30 s may be needed [SNIPPET gm-trucks.com], so start at 15 and go to 30 if cold cranks are weak. |
 | 13 Turbo short runtime | 1–3 min (optional) | — |
@@ -118,7 +121,8 @@ Programming entry: open a door → ignition ON then OFF → hold the control but
 
 - **Hood pin:** the Viper hood input "must" go to a hood pin. Remote start is disabled/shuts down when the hood is open. [OFFICIAL; FORUM t143527] The Fortin sheet for this truck says install one **if the truck has no functional factory hood pin**. [SHEET] **Test tonight:** open the hood and try a factory remote start. If it refuses, the truck has a hood switch the DB3 may report over data. Your DB3 guide will say.
 - **Shock sensor:** mount it **in its permanent location first, then adjust it**, with the ignition OFF and the system disarmed. Trimpot clockwise = more sensitive. Test with light, increasing taps: short LED = warn-away, long LED = full trigger. If it was adjusted before mounting, re-adjust it. [OFFICIAL 5x05 p.13 and troubleshooting]
-- **Brain:** high under the dash, zip-tied to a solid harness, away from the heater duct. **Antenna:** top of the windshield. **LED:** visible on the dash. **Valet/override switch:** hidden but reachable. [GENERAL]
+- **Control Center (one unit):** on the 5305V the antenna, status LED and valet/override button are a **single Control Center**, "typically located on the upper part of the front windshield". Mount it there, unhidden, for range and LED visibility. [OFFICIAL: 5305V Owner's Guide 2015-05, p.3] The **remote start shutoff toggle** (Black/White → parking brake wire) is a separate part: mount it hidden but reachable.
+- **Brain:** high under the dash, zip-tied to a solid harness, away from the heater duct. [GENERAL]
 - **Siren:** in the engine bay, mouth down (drains water), away from the turbo/exhaust heat. **Firewall:** use an existing factory grommet; protect the wire with loom. [GENERAL]
 
 ---
@@ -140,13 +144,13 @@ Programming entry: open a door → ignition ON then OFF → hold the control but
 - When the truck is parked in a garage or being serviced, **turn the installed shutoff toggle OFF** so it can't remote start.
 - Directed requires a **carbon monoxide detector** in the living area next to wherever the truck is stored, with doors from the living area to the storage area kept closed.
 - Never remote start in gear, and never with the keys in the ignition, except during the Safety Check below.
-- **Neutral Safety Shutdown test (required after install).** Directed requires this test, and says that if the truck starts in gear, the remote start "must be removed or properly reinstalled". [OFFICIAL] The 5x05 guide cites the test without printing the steps, so here is the standard procedure [GENERAL]:
-  1. Outdoors, clear area, wheels chocked, someone in the driver seat with a foot **hovering over, not on,** the brake pedal, ready to stop the truck.
-  2. Parking brake **set**, shifter in **Drive**, **foot OFF the brake pedal** (pressing it triggers the Viper's brake shutdown, which would hide a failed in-gear block): send remote start. It **must not crank.**
+- **Neutral Safety Shutdown test (required after install).** Directed requires this test, and says that if the truck starts in gear, the remote start "must be removed or properly reinstalled". [OFFICIAL] The 5x05 guide cites the test without printing it. The steps below follow Directed's printed Safety Check from another Directed remote-start guide [OFFICIAL: Directed install guide N24921 2011-11, "Safety check" p.27], plus the parking-brake, hood-while-running and toggle checks this install needs:
+  1. Outdoors, clear area, wheels chocked, enough clearance front and rear, someone in the driver seat.
+  2. **In-gear test** [OFFICIAL]: hood closed, no other shutdowns active, **parking brake set**. **Turn the key to RUN, but don't start the engine.** Press the brake, shift to **Drive**, then **take your foot off the pedal and hold it over it** (holding the brake triggers the Viper's brake shutdown and would hide a failure). Send remote start. **The starter must not engage.** If it does, step on the brake right away. Afterward: shift back to Park, key OFF, remove the key.
   3. Shifter in **Park**, parking brake **released**: send remote start. It **must not start** (no ground on Black/White).
   4. Park + parking brake set: send remote start. It should start. Press the brake pedal: it must shut down (Brown brake input).
   5. **New cycle:** remote start again (Park + parking brake set), then open the hood. It must shut down (5 flashes = hood).
-  6. **With the hood still open**, send remote start. It **must not start.**
+  6. **With the hood still open**, send remote start. It **must not start.** In diesel mode the ignition may come on, but **the starter must not engage.** [OFFICIAL N24921]
   7. **Shutoff toggle OFF**, Park, parking brake set, hood closed: send remote start. It **must not start.** Turn the toggle back ON afterward. This proves the switch path works; it's what protects the truck during service or garage storage.
   8. If step 2, 3, 6 or 7 cranks or starts the truck, **stop using it** and fix the wiring before the truck goes into service.
 
@@ -162,6 +166,8 @@ Estimated total hands-on time for a first-timer on this truck with the full alar
 ---
 
 ## Sources read directly
+- Viper 5305V Owner's Guide 2015-05 (Control Center): directeddealers.com/manuals/OG/Viper/G5305 2015-05 web2.pdf
+- Directed install guide N24921 2011-11, Safety check procedure: directeddealers.com/manuals/OG/Designtech/N24921 2011 11 web.pdf
 - GM 2015 Chevrolet Silverado/GMC Sierra Electrical Body Builder's Manual, Rev 1.2 (S38 ignition switch, B80 park brake switch, door ajar system, K9 BCM X7, M74D): gmupfitter.com/wp-content/uploads/2021/06/Sierra_Silverado_Electrical_Body_Builders_Manual_Service_Manual_2015_en_US.pdf
 - Directed 5x05 Installation Guide 2016-01: directeddealers.com/manuals/IG/Viper/N5X05 2016-01 web.pdf
 - Directed 5x05 Quick Reference 2015-06: directeddealers.com/manuals/IG/Viper/QRN5X05 2015-06 web.pdf
