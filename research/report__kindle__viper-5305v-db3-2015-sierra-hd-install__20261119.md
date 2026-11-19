@@ -51,10 +51,19 @@ Wire chart for the 2014-2015 K2XX truck (the12volt moderator "wirewise", posted 
 | Factory alarm disarm | Transponder + ignition (handled by the bypass) | — |
 
 - **BCM is under the driver-side dash.** [FORUM t145256, SHEET Kleinn RS-GM5, SHEET Fortin THAR-GM5]
-- **GMLAN (single-wire CAN) = the green wire at OBD-II pin 1.** Solder wire-on-wire; no T-taps. [SHEET Kleinn RS-GM5, covers 2015-2020 Sierra 2500/3500]
+- **Data bus at the OBD-II port (X84):** pin 1 L-GN = Low Speed GMLAN (single-wire CAN, circuit 5060); **pin 6 D-BU = High Speed GMLAN (+)** (circuit 2500); **pin 14 WH = High Speed GMLAN (−)** (circuit 2501); pins 12/13 = second HS bus; 4/5 = grounds. [OFFICIAL GM, X84] **Make the DB3 data connections exactly as the VIN-specific DB3 guide shows.** A PR review cites Directed's GM10 Type 2 diagram for the 2015–2016 Sierra 2500/3500 as using **all three: SW-CAN pin 1 plus the HS-CAN pair, pins 6/14** (not verified here; manuals.plus blocks scripted reads). Hooking up pin 1 alone may leave the bypass unable to program. Solder wire-on-wire, no T-taps. [SHEET Kleinn RS-GM5]
 - **Ignition switch:** a 6-pin ignition plug at the back of the key cylinder, plus a 3-pin **violet** immobilizer plug. [SHEET Kleinn RS-GM5] **GM's S38 ignition switch pinout:** 1 not used · 2 VT/BK Run/Crank Ignition 1 · 3 VT/YE Accessory · 4 RD/D-BU Battery + · 5 WH/VT Off/Run/Crank · 6 WH/BK Ignition Key Resistor Signal. **There is no starter wire.** Crank is requested through the key-resistor signal. [OFFICIAL GM 2015 Silverado/Sierra Electrical Body Builder's Manual, S38]
 - **Parking brake switch (B80):** a single-wire switch, **D-BU/VT (dark blue/violet), circuit 1134**, at the left side of the passenger compartment (park brake pedal). [OFFICIAL GM, B80] Meter it: it should read ground with the brake set and open with it released. That's what the Viper Black/White input needs through the shutoff switch.
-- **Door triggers: each door has its own door-ajar circuit, so one wire won't cover all four.** [OFFICIAL GM, Door Ajar System] The driver door (LF, **GY, circuit 745**) depends on equipment. With express up/down driver window (RPO AXG), the **driver window motor** monitors it: M74D connector **pin 6**, and the BCM gets it over serial data. Otherwise it shows at **BCM X7 (light-gray 26-way) pin 25**. RF is GY 746, LR GY/WH 747, RR GY/WH 748. **Best path: use door status from the DB3 over D2D, if the DB3 guide lists it, and test all four doors.** Hard-wire only if it doesn't, and meter both driver-door locations to find which one goes to ground when the door opens.
+- **Door triggers: each door has its own door-ajar circuit, so one wire won't cover all four.** [OFFICIAL GM, Door Ajar System] The driver door (LF, **GY, circuit 745**) depends on equipment. With express up/down driver window (RPO AXG), the **driver window motor** monitors it: M74D connector **pin 6**, and the BCM gets it over serial data. Otherwise it shows at **BCM X7 (light-gray 26-way) pin 25**. **Best path: use door status from the DB3 over D2D, but only if the DB3 guide lists it, and prove all four doors trigger the alarm during testing.** If it doesn't, hard-wire every door. Where to tap depends on the window options, because with power-window modules the signal ends at the window motor/switch and reaches the BCM only over serial data: [OFFICIAL GM, Door Ajar System + connector end views]
+
+| Door | Circuit | With power-window option | Without |
+|---|---|---|---|
+| LF (driver) | GY 745 | M74D driver window motor, pin 6 (AXG) | BCM X7 (light-gray 26-way), pin 25 |
+| RF | GY 746 | S79P passenger window switch, pin 8 (AED) | BCM X7, pin 14 |
+| LR | GY/WH 747 | S79LR window switch, pin 2 (AEQ) | Not at the BCM; tap the circuit in the door harness (A23LR latch pin 1) |
+| RR | GY/WH 748 | S79RR window switch, pin 2 (AEQ) | Not at the BCM; tap the circuit in the door harness (A23RR latch pin 5) |
+
+Meter each one: it should go to ground when its door opens. Feed all four into the Viper Green (−) door input through **one diode per door, band (cathode) toward the door wire**, so the circuits stay isolated from each other. [GENERAL: standard negative-trigger isolation; verify with a meter]
 - Two other sheets confirm parking lights at the **white 26-pin BCM plug, pin 22**. [SHEET Kleinn, Fortin]
 - **The DB3 does NOT do starter kill.** [FORUM t144029, lectricguy] The relay recipe in that thread (cut the start wire at the ignition switch) **does NOT apply to this truck**. The 2015 K2XX has **no conventional starter/crank wire at the ignition switch**: the moderator chart's Note #1 covers GM vehicles "that [have] no starter/crank wire coming from the ignition switch", and and GM's S38 pinout (above) carries only Run/Crank, accessory, battery, Off/Run/Crank and the key-resistor signal. [OFFICIAL GM] **Do not cut any ignition-switch wire for starter kill.** Leave the Viper Orange GWA unconnected unless the DB3 vehicle guide names a starter-inhibit circuit for this truck.
 
@@ -138,7 +147,8 @@ Programming entry: open a door → ignition ON then OFF → hold the control but
   4. Park + parking brake set: send remote start. It should start. Press the brake pedal: it must shut down (Brown brake input).
   5. **New cycle:** remote start again (Park + parking brake set), then open the hood. It must shut down (5 flashes = hood).
   6. **With the hood still open**, send remote start. It **must not start.**
-  7. If step 2, 3 or 6 cranks or starts the truck, **stop using it** and fix the wiring before the truck goes into service.
+  7. **Shutoff toggle OFF**, Park, parking brake set, hood closed: send remote start. It **must not start.** Turn the toggle back ON afterward. This proves the switch path works; it's what protects the truck during service or garage storage.
+  8. If step 2, 3, 6 or 7 cranks or starts the truck, **stop using it** and fix the wiring before the truck goes into service.
 
 ## Tonight vs. tomorrow (rough estimate)
 
