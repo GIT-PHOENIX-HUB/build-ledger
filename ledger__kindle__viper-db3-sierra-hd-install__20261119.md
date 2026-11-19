@@ -4,9 +4,7 @@
 **Agent:** kindle (cloud session)
 **Requested by:** Shane
 **Opened:** 2026-11-19 03:53 UTC
-**Status:** IN PROGRESS — deep research running
-
-> Note: this repo is PUBLIC. The VIN is recorded with the serial masked on purpose.
+**Status:** IN PROGRESS — guide delivered; Gate 0 (DirecTechs login) pending Shane
 
 ---
 
@@ -14,7 +12,7 @@
 
 | Field | Value | Source |
 |---|---|---|
-| VIN pattern | `1GT12ZE86FF******` (serial masked) | Photo of the windshield VIN plate |
+| VIN | `1GT12ZE86FF105780` | Photo of the windshield VIN plate (full VIN per Shane, 2026-11-19) |
 | Year | 2015 (VIN digit 10 = F) | VIN decode by hand. NHTSA vPIC is blocked from the cloud session. |
 | Make / line | GMC Sierra HD (K2XX HD platform) | VIN: WMI 1GT, built in Flint (digit 11 = F) |
 | Engine | 6.6L Duramax LML diesel (engine digit 8) | VIN decode by hand. Research will confirm. |
@@ -34,6 +32,8 @@
 1. **Scope:** EVERYTHING. Remote start, lock/unlock, and the full alarm (siren, shock sensor, door and hood triggers, hood pin, LED, valet switch).
 2. **Flashing device:** iPhone.
 3. **GitHub:** Kindle pushes to the ledger whenever needed. A standing authorization for this repo.
+4. **VIN:** record it in full. Shane doesn't want it masked.
+5. **Plan:** take the install as far as possible tonight, then decide whether to finish tonight or tomorrow.
 
 ## Entries
 
@@ -42,11 +42,15 @@
 | 03:53 | Read the hardware from the photos. Decoded the VIN by hand (the NHTSA API is blocked by the session proxy). Asked Shane 3 scoping questions: factory RS, scope, flash device. |
 | 03:53 | Launched the `deep-research` workflow (run `wf_6ef0ab2d-3c5`): 5 search angles → fetch about 15 sources → 3-vote adversarial claim check → cited synthesis. |
 | 03:55 | Shane gave standing authorization to push the ledger. Opened this ledger file. Research is in the Search phase. |
+| 04:00 | Research run finished with **0 claims**. Root cause: the session network blocked every manual/forum host (search worked; every fetch failed). |
+| 04:01 | With Shane's approval, added 9 hosts to the Phoenix-Ops environment allowlist (the12volt, directeddealers, directechs, manuals.plus, manualslib, sdda.semadata.org, images.carid.com). Downloaded the Viper 5x05 full and quick-reference guides, the Kleinn RS-GM5 and Fortin THAR-GM5 sheets, the DirecTechs news post, and 11 the12volt threads. manuals.plus still returns 403 (their bot block). |
+| 04:10 | Wrote the install guide: `research/report__kindle__viper-5305v-db3-2015-sierra-hd-install__20261119.md`. **Key finding: the DB3 flash and the Key2GO key learn both need a dealer DirecTechs login.** This is Gate 0 before any wiring. |
 
 ## Pending
 
-- [ ] Deep research finishes → cited install guide saved to `research/`
-- [ ] Guide summary delivered to Shane
+- [x] Cited install guide saved to `research/`
+- [x] Guide summary delivered to Shane
+- [ ] **Gate 0:** Shane tests the DirectLoader app / DirecTechs login
 - [ ] Confirm the DB3 firmware/install type before Shane flashes anything
 - [ ] Shane's live install, step by step → log each stage here
 - [ ] Final test and verify → close this ledger
