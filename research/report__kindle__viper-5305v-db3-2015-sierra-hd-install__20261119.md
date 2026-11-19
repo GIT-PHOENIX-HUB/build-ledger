@@ -89,7 +89,9 @@ Wire chart for the 2014-2015 K2XX truck (the12volt moderator "wirewise", posted 
 
 ## Duramax settings [OFFICIAL unless tagged]
 
-Programming entry: open a door → ignition ON then OFF → hold the control button; chirps = menu number (1 = Basic, 2 = Advanced, 3 = Remote start) → release → tap N times for feature N, then hold → set it with the remote (AUX = 2+ chirp options, lock = 1-chirp option) or by pulsing White/Blue.
+Programming entry: open a door → ignition ON then OFF → hold the control button; chirps = menu number (1 = Basic, 2 = Advanced, 3 = Remote start) → release → tap N times for feature N, then hold → **keep holding the control button** and set it with the remote: **Lock = option 1, Unlock = option 2** for two-option features. For features with more options, **Lock steps up through the options and Unlock steps down**; count the chirps until they match the option number you want. Or pulse White/Blue (−) once per step. **AUX does not select options.** [OFFICIAL 5x05 p.15]
+
+**Pairing the remotes** [OFFICIAL 5x05 p.15]: open a door → key ON → within 5 s press and release the control button once → within 5 s press and **hold** it (LED flashes once, siren chirps) → press **Lock** on each remote (a chirp confirms each one) → release the button, key OFF.
 
 | Menu 3 item | Set to | Why |
 |---|---|---|
@@ -106,7 +108,7 @@ Programming entry: open a door → ignition ON then OFF → hold the control but
 ## Alarm parts and mounting
 
 - **Hood pin:** the Viper hood input "must" go to a hood pin. Remote start is disabled/shuts down when the hood is open. [OFFICIAL; FORUM t143527] The Fortin sheet for this truck says install one **if the truck has no functional factory hood pin**. [SHEET] **Test tonight:** open the hood and try a factory remote start. If it refuses, the truck has a hood switch the DB3 may report over data. Your DB3 guide will say.
-- **Shock sensor:** adjust it **before** mounting (pot clockwise = more sensitive). Short LED = warn-away, long = full trigger. [OFFICIAL]
+- **Shock sensor:** mount it **in its permanent location first, then adjust it**, with the ignition OFF and the system disarmed. Trimpot clockwise = more sensitive. Test with light, increasing taps: short LED = warn-away, long LED = full trigger. If it was adjusted before mounting, re-adjust it. [OFFICIAL 5x05 p.13 and troubleshooting]
 - **Brain:** high under the dash, zip-tied to a solid harness, away from the heater duct. **Antenna:** top of the windshield. **LED:** visible on the dash. **Valet/override switch:** hidden but reachable. [GENERAL]
 - **Siren:** in the engine bay, mouth down (drains water), away from the turbo/exhaust heat. **Firewall:** use an existing factory grommet; protect the wire with loom. [GENERAL]
 
@@ -130,11 +132,13 @@ Programming entry: open a door → ignition ON then OFF → hold the control but
 - Directed requires a **carbon monoxide detector** in the living area next to wherever the truck is stored, with doors from the living area to the storage area kept closed.
 - Never remote start in gear, and never with the keys in the ignition, except during the Safety Check below.
 - **Neutral Safety Shutdown test (required after install).** Directed requires this test, and says that if the truck starts in gear, the remote start "must be removed or properly reinstalled". [OFFICIAL] The 5x05 guide cites the test without printing the steps, so here is the standard procedure [GENERAL]:
-  1. Outdoors, clear area, wheels chocked, someone in the driver seat, foot on the brake, ready to shut it off.
-  2. Parking brake **set**, shifter in **Drive**: send remote start. It **must not crank.**
+  1. Outdoors, clear area, wheels chocked, someone in the driver seat with a foot **hovering over, not on,** the brake pedal, ready to stop the truck.
+  2. Parking brake **set**, shifter in **Drive**, **foot OFF the brake pedal** (pressing it triggers the Viper's brake shutdown, which would hide a failed in-gear block): send remote start. It **must not crank.**
   3. Shifter in **Park**, parking brake **released**: send remote start. It **must not start** (no ground on Black/White).
-  4. Park + brake set: it should start. Press the brake pedal: it must shut down (Brown brake input). Open the hood: it must shut down (5 flashes = hood).
-  5. If step 2 or 3 starts the truck, **stop using it** and fix the wiring before the truck goes into service.
+  4. Park + parking brake set: send remote start. It should start. Press the brake pedal: it must shut down (Brown brake input).
+  5. **New cycle:** remote start again (Park + parking brake set), then open the hood. It must shut down (5 flashes = hood).
+  6. **With the hood still open**, send remote start. It **must not start.**
+  7. If step 2, 3 or 6 cranks or starts the truck, **stop using it** and fix the wiring before the truck goes into service.
 
 ## Tonight vs. tomorrow (rough estimate)
 
