@@ -44,7 +44,8 @@
 | 03:55 | Shane gave standing authorization to push the ledger. Opened this ledger file. Research is in the Search phase. |
 | 04:00 | Research run finished with **0 claims**. Root cause: the session network blocked every manual/forum host (search worked; every fetch failed). |
 | 04:01 | With Shane's approval, added 9 hosts to the Phoenix-Ops environment allowlist (the12volt, directeddealers, directechs, manuals.plus, manualslib, sdda.semadata.org, images.carid.com). Downloaded the Viper 5x05 full and quick-reference guides, the Kleinn RS-GM5 and Fortin THAR-GM5 sheets, the DirecTechs news post, and 11 the12volt threads. manuals.plus still returns 403 (their bot block). |
-| 04:10 | Wrote the install guide: `research/report__kindle__viper-5305v-db3-2015-sierra-hd-install__20261119.md`. **Key finding: the DB3 flash and the Key2GO key learn both need a dealer DirecTechs login.** This is Gate 0 before any wiring. |
+| 04:04 | Wrote the install guide: `research/report__kindle__viper-5305v-db3-2015-sierra-hd-install__20261119.md`. **Key finding: the DB3 flash and the Key2GO key learn both need a dealer DirecTechs login.** This is Gate 0 before any wiring. |
+| 04:12 | Fixed 5 Codex review findings on PR #32: (1) removed the cut-the-start-wire starter-kill recipe, since this truck has no starter wire at the ignition switch; (2) the diode orientation now defers to the DB3 guide; (3) Black/White goes through the shutoff switch, not straight to ground; (4) added an outdoor-only/CO safety section; (5) corrected this ledger's 04:10 entry to 04:04 to match the commit time. |
 
 ## Pending
 

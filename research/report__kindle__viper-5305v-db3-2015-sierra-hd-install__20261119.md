@@ -54,7 +54,7 @@ Wire chart for the 2014-2015 K2XX truck (the12volt moderator "wirewise", posted 
 - **GMLAN (single-wire CAN) = the green wire at OBD-II pin 1.** Solder wire-on-wire; no T-taps. [SHEET Kleinn RS-GM5, covers 2015-2020 Sierra 2500/3500]
 - **Ignition switch:** a 6-pin ignition plug at the back of the key cylinder, plus a 3-pin **violet** immobilizer plug. [SHEET Kleinn RS-GM5]
 - Two other sheets confirm parking lights at the **white 26-pin BCM plug, pin 22**. [SHEET Kleinn, Fortin]
-- **The DB3 does NOT do starter kill.** If you want the Viper to kill the starter, add a relay: 85 = Viper Orange GWA; 86 = ignition (+); cut the start wire, 30 = key side, 87a = engine side; diode from 86 to 85, band toward 86. [FORUM t144029, lectricguy]
+- **The DB3 does NOT do starter kill.** [FORUM t144029, lectricguy] The relay recipe in that thread (cut the start wire at the ignition switch) **does NOT apply to this truck**. The 2015 K2XX has **no conventional starter/crank wire at the ignition switch**: the moderator chart's Note #1 covers GM vehicles "that [have] no starter/crank wire coming from the ignition switch", and the switch connector carries Run/Crank, accessory, battery and key-sense circuits (per the GM 2015 Silverado/Sierra electrical body builder's manual, cited in PR review; not read here). **Do not cut any ignition-switch wire for starter kill.** Leave the Viper Orange GWA unconnected unless the DB3 vehicle guide names a starter-inhibit circuit for this truck.
 
 > The DB3 install guide for your VIN overrides this chart. Use the chart to find wires and check them with your meter.
 
@@ -80,7 +80,7 @@ Wire chart for the 2014-2015 K2XX truck (the12volt moderator "wirewise", posted 
 
 ### Viper ↔ DB3 over D2D [FORUM t144029, the same 5305V + DB3 + D2D pairing on a 2015 GM Savana]
 - With D2D, **the vehicle side follows the DB3 vehicle guide**. Set options on both units. There is no separate "D2D pairing" step.
-- Reference hookup from that build (a van, so your DB3 guide controls the details): 5-pin Black/Brown/Red/White all connected. 10-pin **Pink** to the DB3 ignition output and the vehicle ignition through a **1A diode**. **Power every 12V input** on the 10-pin (Red, Red/Black, Red/White). 24-pin: **Gray** to the hood pin, **Violet/White** to the DB3 tach out, **Black/White** to ground (automatic trans), **Brown/Black** to horn.
+- Reference hookup from that build (a van, so your DB3 guide controls the details): 5-pin Black/Brown/Red/White all connected. 10-pin **Pink** to the DB3 ignition output and to the vehicle ignition, with a **1A diode** in one of those branches. **The thread does not give the diode's branch or which end gets the band, and a backward or misplaced diode can block the ignition signal or backfeed one module's 12V into the other. Do not install it until the DB3 vehicle guide shows its exact anode/cathode endpoints.** **Power every 12V input** on the 10-pin (Red, Red/Black, Red/White). 24-pin: **Gray** to the hood pin, **Violet/White** to the DB3 tach out, **Brown/Black** to horn. **Black/White:** the thread grounded it directly (automatic trans). **Don't.** The official guide says to run it **through the supplied Remote Start Shutoff Switch** (one switch lead to Black/White, the other to ground/the (−) parking brake wire). That switch is how remote start gets disabled for service or garage parking. [OFFICIAL]
 - Even in alarm-only setups, **connect the Pink ign1 wire**. It is also the ignition-trigger input and is used for programming. [FORUM t146767]
 
 ---
@@ -120,6 +120,13 @@ Programming entry: open a door → ignition ON then OFF → hold the control but
 6. **Fortin T-harness power path** is limited to 2A/10A, so feed the remote starter directly from the battery. [SHEET Fortin] This matches the chart's "battery only" note.
 
 ---
+
+## Safety for every test start [OFFICIAL: 5x05 Installation Guide, safety warnings]
+
+- **Run every remote-start test, cold-start test included, OUTDOORS.** Directed: "Never operate the system in an enclosed or partially enclosed area without ventilation (such as a garage)."
+- When the truck is parked in a garage or being serviced, **turn the installed shutoff toggle OFF** so it can't remote start.
+- Directed requires a **carbon monoxide detector** in the living area next to wherever the truck is stored, with doors from the living area to the storage area kept closed.
+- Never remote start in gear, and never with the keys in the ignition, except during the guide's own Safety Check.
 
 ## Tonight vs. tomorrow (rough estimate)
 
