@@ -56,12 +56,14 @@
 | 17:58 (11-20) | Follow-up: Shane runs a WIX filter and asked about the water drain valve. Answer: the drain is for draining water (the 'Water in Fuel' message), not for this message. Procedure: open the top vent, drain into a pan until clean fuel, close the drain hand-tight, close the vent. Left open = fuel keeps draining (DMAX). The restriction switch is normally closed and opens above about 14 inHg supply vacuum (BITOG). GM and a tuning vendor warn some aftermarket filters don't meet OEM water-hold/micron spec; there are no WIX-specific reports. Suggested ruling it out with an OEM ACDelco TP3018 after the wiring check. |
 | 18:09 (11-20) | Back on the install. Shane asked whether the DB3 is needed, what 'DBALL' is, and about getting the 'key fobs flashed' before install. Clarified: (1) the DB3 is required; the truck's transponder immobilizer needs a bypass (moderator chart: 'requires interface bypass module DBALL2'; the DB3 is the current version). 'DBALL harness kit' = the DB3's wiring harness bag, not a separate module. (2) Three separate steps: DB3 firmware flash (bench, before install, DLOADER4 OBD power + D2D Y-cable, module unpowered; needs the dealer login) / DB3 key learn + Key2GO (after DB3 wiring; factory keys unchanged) / Viper remote pairing (after install). Factory fobs are never flashed or altered. Agreed: bench-flash first is the right order. Pointed Shane to the QR card in the DLOADER4 case for the official manual. |
 | 18:16 (11-20) | Shane asked whether he bought the DLOADER4 to avoid the dealer. Answer: the tool only works behind a DirecTechs login that Directed gives to authorized dealers (App Store listing snippet; the12volt 2017-2023), so it doesn't remove the dealer requirement unless his login works (still untested, a 2-minute check). Next: test the login; if blocked, call a Directed shop (Autoplex: Denver/Loveland/Longmont; Tint World: Aurora, serves Parker; Best Buy, which sells Viper installs; or the directed.com dealer locator); consider returning the DLOADER4. Fallback, unverified: a consumer-flashable bypass such as Fortin EVO-ALL (what the 2015 Sierra thread poster switched to); Viper D2D compatibility not checked. |
+| 18:17 (11-20) | Decision: skip the login test (Shane's call; the evidence already says dealer-only). The path is now a Directed shop for the DB3 flash + Key2GO. Tonight: prep only, no wiring. |
 
 ## Pending
 
 - [x] Cited install guide saved to `research/`
 - [x] Guide summary delivered to Shane
-- [ ] **Gate 0:** Shane tests the DirectLoader app / DirecTechs login
+- [x] **Gate 0:** decided: no DirecTechs access; use a Directed shop for the flash + Key2GO
+- [ ] Call Directed shops (Autoplex, Tint World Aurora, Best Buy, directed.com locator) and book the flash + Key2GO
 - [ ] Confirm the DB3 firmware/install type before Shane flashes anything
 - [ ] Shane's live install, step by step → log each stage here
 - [ ] Final test and verify → close this ledger
