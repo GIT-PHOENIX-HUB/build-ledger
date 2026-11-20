@@ -59,6 +59,7 @@
 | 18:17 (11-20) | Decision: skip the login test (Shane's call; the evidence already says dealer-only). The path is now a Directed shop for the DB3 flash + Key2GO. Tonight: prep only, no wiring. |
 | 18:18 (11-20) | Gave Shane a short shop checklist: call ahead; bring the DB3 + DBALL harness bag, Viper 5305V box, DLOADER4, truck, both keys, VIN; ask for the DB3 flash (2015 Sierra 2500HD Duramax, auto, key start, factory RS, Viper 5305V D2D), transmission loop set for automatic, the install guide emailed, the firmware version, and Key2GO today or after wiring. |
 | 18:21 (11-20) | Shane asked why he bought a DLOADER4 he can't use. Answer: the hardware is sold openly at retail, but Directed restricts the software login to dealers. Options: return it, resell it to an installer, or apply for a dealer account through a Directed distributor/sales rep (per the12volt t145113 error text; Phoenix Electric qualifying not confirmed). |
+| 18:23 (11-20) | Shane asked what becoming a Directed dealer costs. No public fee found. It's a volume-dealer program (discounts tied to purchase levels; 2019 dealer agreements aimed at brick-and-mortar retailers). Apply at directed.com/contact/becomedealer or 1-800-876-0800 (number from 2019, may be stale). Terms come from a Directed sales rep. For one truck, a shop flash (about $75 in a 2017 forum quote) is cheaper. |
 
 ## Pending
 
